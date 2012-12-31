@@ -1,0 +1,16 @@
+name: Quest Manager
+main: me.Jeebiss.QuestManager.QuestManager
+version: 0.1-prerelease
+depend: [Citizens]
+
+commands:
+   questmanager:
+      description: The main command for Quest Manager.
+      usage: /questmanager help
+      permission: questmanager.use
+      
+permissions:
+  questmanager.*:
+    description: Gives access to Denizen commands
+    children:
+      questmanager.use: true
