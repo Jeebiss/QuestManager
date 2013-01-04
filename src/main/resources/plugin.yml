@@ -1,5 +1,5 @@
 name: Quest Manager
-main: me.Jeebiss.QuestManager.QuestManager
+main: net.jeebiss.questmanager.QuestManager
 version: 0.1-prerelease
 depend: [Citizens]
 
