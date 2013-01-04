@@ -1,4 +1,4 @@
-package me.Jeebiss.QuestManager.DenizenListeners;
+package net.jeebiss.questmanager.denizenlisteners;
 
 import java.util.List;
 
@@ -6,13 +6,17 @@ import org.bukkit.Location;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import me.Jeebiss.QuestManager.DenizenListeners.TravelListenerType.TravelType;
 import net.aufdemrand.denizen.listeners.AbstractListener;
 import net.aufdemrand.denizen.utilities.arguments.aH;
 import net.aufdemrand.denizen.utilities.arguments.aH.ArgumentType;
 import net.aufdemrand.denizen.utilities.debugging.dB;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.jeebiss.questmanager.denizenlisteners.TravelListenerType.TravelType;
 
 public class TravelListenerInstance extends AbstractListener implements Listener{
+	
+	NPC target;
 	
 	private Location endPoint;
 	
@@ -51,6 +55,19 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 					dB.echoDebug("...set TYPE to: " + aH.getStringFrom(arg));
 				} catch (Exception e) {e.printStackTrace();}
 			}
+			
+			else if (aH.matchesValueArg("TARGET", arg, ArgumentType.LivingEntity)) {
+				if ((CitizensAPI.getNPCRegistry().getNPC(aH.getLivingEntityFrom(arg)) != null &&
+						CitizensAPI.getNPCRegistry().isNPC(aH.getLivingEntityFrom(arg)))){
+					target = CitizensAPI.getNPCRegistry().getNPC(aH.getLivingEntityFrom(arg));
+				}
+				dB.echoDebug("...NPC set to: " + target.getId());
+			}
+		}
+		
+		if (TYPE == null) {
+			dB.echoError("Missing TYPE argument! Valid: DISTANCE, TOLOCATION, TONPC");
+			cancel();
 		}
 	}
 
@@ -84,8 +101,14 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 
 	@Override
 	public String report() {
-		// TODO Write a formatted output
-		return "Report of TRAVEL LISTENER";
+		if (TYPE == TravelType.DISTANCE){
+			return player.getName() + "has traveled " + blocksWalked + " blocks out of " + distance;
+		} else if (TYPE == TravelType.TOLOCATION) {
+			return player.getName() + " is traveling to " + endPoint;
+		} else if (TYPE == TravelType.TONPC) {
+			return player.getName() + " is traveling to NPC " + target.getId();
+		}
+		return "Failed to create detailed report";
 	}
 
 	public void walking(PlayerMoveEvent event) {
@@ -100,6 +123,11 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 		} else if (TYPE == TravelType.TOLOCATION) {
 			if (player.getLocation().distance(endPoint) <= 2) {
 				dB.echoDebug("...player reached location");
+				finish();
+			}
+		} else if (TYPE == TravelType.TONPC) {
+			if (player.getLocation().distance(target.getBukkitEntity().getLocation()) <= 2) {
+				dB.echoDebug("...player reached NPC");
 				finish();
 			}
 		}

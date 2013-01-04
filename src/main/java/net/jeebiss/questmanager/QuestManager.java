@@ -1,8 +1,8 @@
-package me.Jeebiss.QuestManager;
-import me.Jeebiss.QuestManager.Commands.QMCommandHandler;
-import me.Jeebiss.QuestManager.DenizenListeners.TravelListenerInstance;
-import me.Jeebiss.QuestManager.DenizenListeners.TravelListenerType;
+package net.jeebiss.questmanager;
 import net.citizensnpcs.Citizens;
+import net.jeebiss.questmanager.commands.QMCommandHandler;
+import net.jeebiss.questmanager.denizenlisteners.TravelListenerInstance;
+import net.jeebiss.questmanager.denizenlisteners.TravelListenerType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

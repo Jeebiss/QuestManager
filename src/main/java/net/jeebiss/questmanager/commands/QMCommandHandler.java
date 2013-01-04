@@ -1,4 +1,4 @@
-package me.Jeebiss.QuestManager.Commands;
+package net.jeebiss.questmanager.commands;
 import org.bukkit.command.CommandSender;
 
 import net.citizensnpcs.Citizens;
