@@ -1,7 +1,7 @@
 name: Quest Manager
 main: net.jeebiss.questmanager.QuestManager
 version: 0.1-prerelease
-depend: [Citizens]
+depend: [Citizens, Denizen]
 
 commands:
    questmanager:
