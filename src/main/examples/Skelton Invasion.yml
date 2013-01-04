@@ -1,0 +1,420 @@
+#
+# This is the script that starts the user on the “Skeleton Invasion” quest.  The
+# first step of this quest is to find the skeleton camp.
+#
+Find the Skeleton Camp:
+  Type: Interact
+  Requirements: 
+    Mode:
+    Steps:
+      1:
+        Click Trigger:
+          Script:
+          #
+          # This will start a quest called “Skeleton Encampment.”  The actual
+          # Quest SCRIPT is called ‘Skeleton Invasion’ and is defined elsewhere
+          # in the script.  This provides the ability to reuse quests, but give
+          # them different “Names.”  It’s not completely applicable in this
+          # particular case because this quest is very specific.  However, for
+          # other more “generic” quests, it’s very important.
+          #
+          - QUEST START SCRIPT:’Skeleton Invasion’ NAME:’Skeleton Encampment’
+
+#
+# This is the part of the “Skeleton Invasion” quest that instructs the user
+# to return to the skeleton camp and kill skeletons until they find the battle
+# plans.
+#
+Return to Town:
+  Type: Interact
+  Requirements:
+    MODE: ALL
+    List:
+    - QUEST FINISHED Skeleton Encampment.Return to Town’
+    Steps:
+      1:
+        Click Trigger:
+          Script:
+          - CHAT 'Welcome back, <PLAYER.NAME>.  You've done a great
+            service, but we've received grave news.  Word was received
+            from another of our spies that these skeletons are planning
+            an invasion of the city.  Apparently, the battle plans of
+            this invasion are within the camp that you investigated.  We
+            need you to return to that camp, find the battle plans, and
+            return them to us quickly.'
+
+#
+# This is the script that will be used to assign the "Find the Instigator"
+# quest to a NPC.
+#
+Find the Instigator Script:
+  Type: Interact
+  Requirements: NONE
+  Steps:
+    Start Quest:
+      Click Trigger:
+        Script:
+        - QUEST START SCRIPT:’Find the Instigator’ NAME:’Traitor in our Midst’
+
+#
+# This is a script that is assigned to a NPC that's going to be involved
+# with the "Find the Instigator" quest.  The Click Trigger requires that
+# the player has the "Misplaced Skeleton Commander Note" in his or her
+# possession.  This will be taken from their inventory and replaced with
+# the "Transcribed Skeleton Commander Note" so that the quest can be
+# continued.
+#
+Scribe Script:
+  Type: Interact
+  #
+  # This script requires an item made of PAPER named “Misplaced Skeleton Commander Note”
+  # to be in the player’s inventory.
+  #
+  Requirements: 
+    Mode: ALL
+    List:
+    - ITEM MATERIAL:PAPER ‘NAME:Misplaced Skeleton Commander Note’ QTY:1
+    Steps:
+    1:
+      Click Trigger:
+        Script:
+        - CHAT "Ah, <PLAYER.NAME>, that note is written in the ancient tongue of 
+          Piglatin, long forgotten.  As it so happens, I have knowledge of this 
+          language and can help.”
+        - NARRATE "...a dark shadow passes over the scribe as he applies his trade...”
+        - CHAT "Here <PLAYER.NAME>, I have transcribed this note and its dark purpose
+          Make haste, time is of the essence.”
+        - TAKE ITEM:Paper DISPLAYNAME:’Misplaced Skeleton Commander Note’ QTY:1
+        - NEW ITEMSTACK ITEM:Paper NAME:TranscribedNote
+        - FORGE ITEM:ITEMSTACK.TranscribedNote DISPLAYNAME:’Misplaced Skeleton Commander Note’
+        - GIVE ITEM:ITEMSTACK.TranscribedNote QTY:1
+
+#
+# This is the script that is called by the quest when the Quest Item, named
+# “Misplaced Skeleton Commander Note” should be dropped.  The script will create the actual
+# quest item, name it “Misplaced Skeleton Commander Note” and then drop it.
+#
+DropNote:
+  Type: Task
+  Script:
+  - NARRATE "You notice a crumpled piece of paper lying on a bed.  You should probably 
+    pick it up and take it back to <NPC.NAME> for examination."
+  - NEW ITEMSTACK ITEM:PAPER QTY:1 NAME:misplacednote
+  - FORGE ITEM:ITEMSTACK.misplacednote DISPLAYNAME:’Misplaced Skeleton Commander Note’ 
+  - DROP ITEM:ITEMSTACK.misplacednote LOCATION:<ANCHOR:Tavern Bedroom Bed>
+  - NARRATE “You notice a strange note laying on the bed.”
+
+#
+# This is the "Skeleton Invasion" quest.  Because this quest is very specific,
+# most of the scripting is done within the quest script itself, instead of in the
+# standard dScript.
+#
+'Skeleton Invasion':
+  Type: Quest
+  Description:  This quest is a small chain quest.  First, the player
+                must locate a skeleton encampment at a particular location.
+                Once found, they must return to the NPC that gave them the
+                quest.  Then, they must return to the location and kill
+                skeletons until they receive the item called 'Skeleton Battle
+                Plans.'
+
+  #
+  # The Chapters tag identifies the list of all quest segments that make up
+  # the entire quest.
+  #
+  Chapters:
+      #
+      # This is the "Default Chapter."  It requires the user to travel to a
+      # certain location in the world.
+      #
+      'Find the Camp':
+        #
+        # The “Introduction” section of the quest is a script that gets
+        # run when the chapter starts.
+        #
+        Introduction:
+        - CHAT ‘<PLAYER.NAME>, we've just received news that there's an 
+          encampment of skeletons outside of town.  All of our spies have 
+          currently been assigned to other duties and we're in need of someone 
+          to scout it out and return to me the news of what's going on.’
+
+        #
+        # The “Goals” section creates listeners that must be satisfied
+        # in order to “complete” the chapter.  Upon satisfying all of 
+        # the goals, the “On Completion” script will run.
+        #
+        Goals:
+        - TRAVEL LOCATION<NOTABLE.LOC:Skeleton Encampment> RADIUS:10
+
+        #
+        # Once all of the goals have been satisfied, this script will be
+        # run.
+        #
+        On Completion:
+        - JOURNAL ADD ‘You found the skeleton encampment.  You decide
+          to return to <NPC.NAME> and let him know the news.’
+        - NARRATE ‘Good job!  You found the encampment.  Now return to
+          <NPC.NAME> to report the news.’
+
+      #
+      # This chapter becomes active when the user completes the "Find the
+      # Camp' chapter.  It requires the user to travel back to the NPC that
+      # gave them the quest.
+      #
+      'Return to Town':
+        Requirements:
+          Mode: All
+          List:
+          - QUEST FINISHED ‘Find the Camp’
+
+        #
+        # The goal of this chapter is that the player must return to the
+        # NPC.
+        #
+        Goals:
+        - TRAVEL LOCATION<NPC.LOC> RADIUS:3
+        
+        On Completion:
+        - JOURNAL ADD ‘You returned to <NPC.NAME> with news of the
+          skeleton encampment, but other news has been received.'
+        - NARRATE 'You've returned with news of the encampment, but
+          grave news has been received.’
+
+      #
+      # This chapter has the user killing skeletons until they receive an
+      # item called "Skeleton Invasion Plans."  Once they receive the item,
+      # they are instructed to return the plans back to the NPC that gave
+      # them the quest.
+      #
+      'Steal the Plans':
+        #
+        # This chapter becomes available once the user completes the “Return to Town”
+        # chapter.
+        #
+        Requirements:
+          Mode: ALL
+          List:
+          - QUEST FINISHED 'Return to Town'
+
+        #
+        # This chapter requires a custom item called “Skeleton Battle Plans.”  So
+        # create a custom item called “Skeleton Battle Plans” that is based on a
+        # particular Minecraft Item.  It will drop at the specified location and
+        # radius if the given entity is killed. Potentially support WorldGuard
+        # regions.  It goes in the introduction because this script is started as
+        # soon as the chapter begins.  It sets up the chapter so that the goals can
+        # be completed.
+        #
+        Introduction:
+        - NEW ITEMSTACK ITEM:WRITTEN_BOOK QTY:1 NAME:battleplans
+        - ENGRAVE NAME:’Skeleton Battle Plans’
+        - BOOK SCRIPT:BattlePlans ITEM:ITEMSTACK.battleplans
+        - ITEMDROP ITEM:ITEMSTACK.battleplans LOCATION:<NOTABLE.LOC:Skeleton Encampment> RADIUS:10 DROPSFROM:ENTITYID DROPRATE:100
+        
+        #
+        # The goal is to collect the battle plans.
+        #
+        Goals:
+        - COLLECT ITEM:PAPER NAME:’Skeleton Battle Plans’ QTY:1
+
+        #
+        # Once the user picks up the battle plans, they’re done with this chapter.
+        #
+        On Completion:
+        - JOURNAL ADD 'You found the battle plans!  You hustle off back
+          to <NPC.NAME> to hand them over so that the invasion can be
+          prevented.
+        - NARRATE 'You found the plans!  Return them to <NPC.NAME> to
+          save the city from the monstrous horde.  Hurry!  Time is
+          running out!'
+
+      #
+      # This is the final chapter of the quest where the player returns th eplans to the
+      # NPC that gave them the quest.
+      #
+      'Return the Plans':
+        #
+        # The player must have already completed the “Steal the Plans” chapter.
+        #
+        Requirements:
+          Mode: All
+          List:
+          - QUEST FINISHED 'Steal the Plans'
+
+        #
+        # The user must now return to the NPC that gave them the quest.
+        #
+        Goals:
+        - TRAVEL LOCATION<NPC.LOC> RADIUS:3
+
+        #
+        # This is an “Auto Chat” script that executes upon completion of this chapter,
+        # in that the NPC talks to the player without the player having to interact with it.
+        #
+        On Completion:
+        - JOURNAL ADD 'You've returned the plans to <NPC.NAME> and in the process, saved
+          hundreds of lives.  But you can't help but wonder, who could have been responsible
+          responsible for orchestrating such a calamity.
+        - NARRATE 'Congratulations!  You've returned the battle plans to
+          <NPC.NAME> and prevented the skeleton invasion.
+        - CHAT 'We owe you a great debt of gratitude, <PLAYER.NAME>.
+          Please accept this small token as our thank you for a job well done.
+        - SHOUT “<PLAYER.NAME> has saved the city from certain destruction!”
+        - TAKE ITEM:Skeleton Battle Plans QTY:1
+        - GIVE MONEY QTY:50
+        - GIVE EXPERIENCE QTY:1000
+
+
+#
+# This is an extension to the "Skeleton Invasion" quest.  This demonstrates how
+# quests can be extended by (potentially) other script writers and basing the
+# requirements on certain chapters being completed from other quests.
+#
+'Find the Instigator':
+  Type: Quest
+  Description:  This is an extension to the Skeleton Invasion quest.  The
+                  premise is that stupid skeletons could not possibly have
+                  put together such detailed plans about the city, or how
+                  to lead such an invasion.
+  Chapters:
+    'Find the Instigator':
+      #
+      # The requirement to start this chapter, and, thus, this quest, is that
+      # the user has completed the “Return the Plans” chapter of the “Skeleton
+      # Invasion” quest.  This is how inter-quest dependencies are created.
+      # Quest Chapter requirements can branch off of completing any other
+      # quest’s chapter.
+      #
+      Requirements:
+      - QUEST FINISHED 'Skeleton Invasion.Return the Plans'
+
+      #
+      # The introduction to this quest defines a custom item named “Misplaced
+      # Skeleton Commander Note” that the user has to pickup.  It will be spawned
+      # when a user walks within 5 blocks of a particular location.  It can only
+      # happen when the user is on this quest’s chapter.
+      #
+      Introduction:
+      - CHAT "<PLAYER.NAME>, word has spread through the town of your
+        bravery in saving the town.  But rumors have spread like wildfire
+        that there is an instigator... a TRAITOR... in our midst that
+        was the root cause of the trouble.  You need to track him or her
+        down and report back to me so that we can arrest them and put them
+        away so that no further harm can come.  Perhaps you should snoop
+        around in the local taverns and see what turns up."
+
+      #
+      # This will call the “DropNote” task script when the player travels to the
+      # tavern bedroom where the note will spawn on the bed in the room.
+      #
+      - TRAVEL TYPE:TOLOCATION LOCATION:<ANCHOR.Tavern Bedroom Bed> RADIUS:2 SCRIPT:DropNote
+
+      #
+      # The goal of this is simply to collect the note.
+      #
+      Goals:
+      - COLLECT ITEM:’Misplaced Skeleton Commander Note’ QTY:1
+
+      On Completion:
+      - JOURNAL ADD "You've found an interesting note just lying
+        amongst the bed sheets.  However, it is in a language you
+        do not understand.  You decide to return to <NPC.NAME> and
+        see what he can make of it."
+
+    #
+    # This part of the quest simply involves taking the undecipherable note back to the
+    # NPC that gave the player the quest.  Upon inspection, the NPC tells the player that
+    # it cannot be deciphered and to take the note to a scribe to have it deciphered.
+    # This part of the quest does not require the player to chat with the NPC.  As soon as
+    # the player gets within a certain radius of the NPC, the NPC will tell him or her what
+    # to do next in the quest.
+    #
+    'Decipher the Note':
+      Requirements:
+      Mode: All
+      List:
+      - QUEST FINISHED 'Find the Instigator'
+      #
+      # The goal of this chapter is to travel to a particular location.
+      #
+      Goals:
+      - TRAVEL TYPE:TO_NPC TARGET:(NPCID) RADIUS:3
+
+      On Completion:
+      - JOURNAL ADD "You've returned the note to <NPC.NAME> who has recommended that you
+        take the note to a local scribe to decipher what the note says.”
+      - NARRATE "You show the note to <NPC.NAME> who is unable to decipher its meaning.
+        With a very grim look on his face, he recommends you find a local scribe that
+        might be able able to help understand its meaning."
+      - CHAT "<PLAYER.NAME>, these scribblings mean nothing to me, but I sense a 
+        dark meaning lies within.  You should seek out a local scribe, perhaps they 
+        could be of service."
+
+    #
+    # In this chapter, the player must take the undecipherable note to a scribe and get
+    # the note transcribed.  The NPC will take the undecipherable note and give the user a
+    # different item (the “Transcribed Skeleton Commander Note”).
+    #
+    'Find the Scribe':
+      Requirements:
+        Mode: All
+        List:
+        - QUEST FINISHED 'Decipher the Note'
+      Goals:
+      - TRAVEL LOCATION<SCRIBENPC.LOC> RADIUS:3
+      - COLLECT ITEM:’Transcribed Skeleton Commander Note’ QTY:1
+
+      On Completion:
+      - JOURNAL ADD "You've located a scribe that can hopefully
+        decipher the note."
+      - NARRATE "You've found someone that might be able to help.
+        You should probably talk to him to see."
+
+    #
+    # This chapter of the quest has two requirements.  The first
+    # requirement is completing the "Find the Scribe" chapter.  The
+    # second requirement is having the "Transcribed Skeleton Commander
+    # Note" which is given to the player by the scribe.
+    #
+    'Return the Note':
+      #
+      # In order to start this chapter, the user must have completed the
+      # ‘Find the Scribe” chapter AND possess the “Transcribed Skeleton
+      # Command Note” in their inventory.
+      #
+      Requirements:
+        Mode: All
+        List:
+        - QUEST FINISHED "Find the Scribe"
+        - ITEM NAME:’Transcribed Skeleton Commander Note’ QTY:1
+
+      #
+      # Back to the NPC they go...
+      #
+      Goals:
+      - TRAVEL TYPE:TONPC TARGET:(NPCID) RADIUS:2
+
+      #
+      # As soon as they are near the NPC, this script will execute because the
+      # travel location is the goal.  This actually removes the item from their
+      # inventory automatically, which might not be the “BEST” idea, but this is
+      # just an example, right? Right.  It could just have easily be put into an
+      # Click Trigger in a script.
+      #
+      On Completion:
+      - JOURNAL ADD "You've returned the note to <NPC.NAME>
+        which has revealed the perpetrator."
+      - NARRATE "You've returned the transcribed note to <NPC.NAME>."
+      - TAKE NAME:’Transcribed Skeleton Commander Note’ QTY:1
+
+    #
+    # The final chapter!
+    # TO BE CONTINUED...
+    #
+    'Reveal the Traitor':
+      Requirements:
+        Mode: All
+        List:
+        - QUEST FINISHED "Return the Note"
+      Introduction:
+      - CHAT “Congratulations!  You beat Minecraft!
