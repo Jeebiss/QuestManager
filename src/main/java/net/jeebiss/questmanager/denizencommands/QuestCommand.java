@@ -27,6 +27,7 @@ public class QuestCommand extends AbstractCommand{
 				} catch (Exception e) {e.printStackTrace();}
 			} else if (aH.matchesValueArg("SCRIPT", arg, ArgumentType.Script)) {
 					scriptName = aH.getStringFrom(arg);
+					dB.echoDebug("...set SCRIPT to use '%s'", scriptName);
 			} else throw new InvalidArgumentsException(Messages.ERROR_UNKNOWN_ARGUMENT, arg);
 
 		}
