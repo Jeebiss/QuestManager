@@ -179,11 +179,11 @@ DropNote:
         Goals:
         - TRAVEL LOCATION<NPC.LOC> RADIUS:3
         
-        On Completion:
-        - JOURNAL ADD 'You returned to <NPC.NAME> with news of the
-          skeleton encampment, but other news has been received.'
-        - NARRATE 'You've returned with news of the encampment, but
-          grave news has been received.'
+      On Completion:
+      - JOURNAL ADD 'You returned to <NPC.NAME> with news of the
+        skeleton encampment, but other news has been received.'
+      - NARRATE 'You've returned with news of the encampment, but
+        grave news has been received.'
 
     #
     # This chapter has the user killing skeletons until they receive an
