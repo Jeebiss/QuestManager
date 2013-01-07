@@ -15,7 +15,7 @@ public class QuestController {
 	Set<String> chapters;
 	List<String> requirements;
 	
-	String playerChapter = null;
+	String currentChapter = null;
 	
 	
 	public QuestController(String scriptName, String questName) {
@@ -31,19 +31,20 @@ public class QuestController {
 			return;
 		}
 		
-		playerChapter = findChapter(scriptName);
+		currentChapter = findChapter(scriptName);
 	}
 	
 	public String findChapter(String scriptName) {
-		String currentChapter = null;
-		
 		//parse over chapters
 		for (String chapter : chapters) {
 			if (denizen.getScripts().getString(scriptName.toUpperCase() + "." + chapter + ".REQUIREMENTS") != null) {
 				requirements = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + chapter + ".REQUIREMENTS");
-			} else currentChapter = chapter;
+				
+				for (String requirement : requirements) {
+					// check requirements at some point
+				}
+			} else return chapter;
 		}
-		
-		return currentChapter;
+		return null;
 	}
 }
