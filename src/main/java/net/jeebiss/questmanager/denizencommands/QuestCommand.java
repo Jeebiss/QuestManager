@@ -26,14 +26,17 @@ public class QuestCommand extends AbstractCommand{
 					TYPE = QuestType.valueOf(aH.getStringFrom(arg));
 					dB.echoDebug("...set TYPE to: " + TYPE.name());
 				} catch (Exception e) {e.printStackTrace();}
-			} else if (aH.matchesValueArg("SCRIPT", arg, ArgumentType.Script)) {
+			} else if (aH.matchesScript (arg)) {
 					scriptName = aH.getStringFrom(arg);
 					dB.echoDebug("...set SCRIPT to use '%s'", scriptName);
 			} else if (aH.matchesValueArg("NAME", arg, ArgumentType.Script)) {
 					questName = aH.getStringFrom(arg);
 					dB.echoDebug("...set NAME to use '%s'", questName);
 			}
-			else throw new InvalidArgumentsException(Messages.ERROR_UNKNOWN_ARGUMENT, arg);
+			else {
+				dB.echoError("Invalid argument: " + arg);
+				throw new InvalidArgumentsException(Messages.ERROR_UNKNOWN_ARGUMENT, arg);
+			}
 
 		}
 		
