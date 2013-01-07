@@ -23,7 +23,7 @@ Find the Skeleton Camp:
         # particular case because this quest is very specific.  However, for
         # other more "generic" quests, it's very important.
         #
-        - QUEST START SCRIPT:'Skeleton Invasion' NAME:'Skeleton Encampment'
+        - QUEST START 'SCRIPT:Skeleton Invasion' 'NAME:Skeleton Encampment'
 
 #
 # This is the part of the "Skeleton Invasion" quest that instructs the user
@@ -35,7 +35,7 @@ Return to Town:
   Requirements:
     MODE: ALL
     List:
-    - QUEST FINISHED Skeleton Encampment.Return to Town'
+    - QUEST FINISHED 'Skeleton Encampment.Return to Town'
   Steps:
     Default:
       Click Trigger:
@@ -59,7 +59,7 @@ Find the Instigator Script:
     Start Quest:
       Click Trigger:
         Script:
-        - QUEST START SCRIPT:'Find the Instigator' NAME:'Traitor in our Midst'
+        - QUEST START 'SCRIPT:Find the Instigator' 'NAME:Traitor in our Midst'
 
 #
 # This is a script that is assigned to a NPC that's going to be involved
