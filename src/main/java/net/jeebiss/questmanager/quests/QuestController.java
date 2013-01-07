@@ -11,8 +11,8 @@ public class QuestController {
 
 	Denizen denizen = (Denizen) Bukkit.getPluginManager().getPlugin("Denizen");
 	
-	public QuestController(String scriptName) {
-		dB.echoDebug("Creating a controller for: " + scriptName);
+	public QuestController(String scriptName, String questName) {
+		dB.echoDebug("Creating a controller for " + scriptName + " as " + questName);
 		//denizen.getScripts();
 	}
 	
