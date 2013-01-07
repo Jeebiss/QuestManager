@@ -179,11 +179,11 @@ DropNote:
         Goals:
         - TRAVEL LOCATION<NPC.LOC> RADIUS:3
         
-        On Completion:
-        - JOURNAL ADD 'You returned to <NPC.NAME> with news of the
-          skeleton encampment, but other news has been received.'
-        - NARRATE 'You've returned with news of the encampment, but
-          grave news has been received.'
+      On Completion:
+      - JOURNAL ADD 'You returned to <NPC.NAME> with news of the
+        skeleton encampment, but other news has been received.'
+      - NARRATE 'You've returned with news of the encampment, but
+        grave news has been received.'
 
     #
     # This chapter has the user killing skeletons until they receive an
@@ -226,16 +226,16 @@ DropNote:
       # Once the user picks up the battle plans, they're done with this chapter.
       #
       On Completion:
-      - JOURNAL ADD 'You found the battle plans!  You hustle off back
+      - JOURNAL ADD "You found the battle plans!  You hustle off back
         to <NPC.NAME> to hand them over so that the invasion can be
-        prevented.
-      - NARRATE 'You found the plans!  Return them to <NPC.NAME> to
+        prevented."
+      - NARRATE "You found the plans!  Return them to <NPC.NAME> to
         save the city from the monstrous horde.  Hurry!  Time is
-        running out!'
+        running out!"
 
     #
-    # This is the final chapter of the quest where the player returns th eplans to the
-    # NPC that gave them the quest.
+    # This is the final chapter of the quest where the player returns the 
+    # plans to the NPC that gave them the quest.
     #
     'Return the Plans':
       #
