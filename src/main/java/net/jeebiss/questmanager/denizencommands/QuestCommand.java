@@ -15,6 +15,7 @@ public class QuestCommand extends AbstractCommand{
 	private QuestType TYPE = null;
 	
 	private String scriptName = null;
+	private String questName = null;
 	
 	@Override
 	public void parseArgs(ScriptEntry scriptEntry)
@@ -28,11 +29,17 @@ public class QuestCommand extends AbstractCommand{
 			} else if (aH.matchesValueArg("SCRIPT", arg, ArgumentType.Script)) {
 					scriptName = aH.getStringFrom(arg);
 					dB.echoDebug("...set SCRIPT to use '%s'", scriptName);
-			} else throw new InvalidArgumentsException(Messages.ERROR_UNKNOWN_ARGUMENT, arg);
+			} else if (aH.matchesValueArg("NAME", arg, ArgumentType.Script)) {
+					questName = aH.getStringFrom(arg);
+					dB.echoDebug("...set NAME to use '%s'", questName);
+			}
+			else throw new InvalidArgumentsException(Messages.ERROR_UNKNOWN_ARGUMENT, arg);
 
 		}
 		
 		scriptEntry.addObject("TYPE", TYPE);
+		scriptEntry.addObject("scriptName", scriptName);
+		scriptEntry.addObject("questName", questName);
 	}
 
 	@Override
@@ -40,7 +47,7 @@ public class QuestCommand extends AbstractCommand{
 			throws CommandExecutionException {
 		switch ((QuestType)scriptEntry.getObject("TYPE")) {
 		case START:
-			QuestController questController = new QuestController(scriptName);
+			QuestController questController = new QuestController((String) scriptEntry.getObject("scriptName"), (String) scriptEntry.getObject("questName"));
 			break;
 
 		case FINISH:
