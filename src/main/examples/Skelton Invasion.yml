@@ -1,3 +1,8 @@
+Skeleton:
+  Type: Assignment
+  Interact Scripts:
+  - 10 Find the Skeleton Camp
+
 #
 # This is the script that starts the user on the "Skeleton Invasion" quest.  The
 # first step of this quest is to find the skeleton camp.
@@ -5,20 +10,20 @@
 Find the Skeleton Camp:
   Type: Interact
   Requirements: 
-    Mode:
-    Steps:
-      1:
-        Click Trigger:
-          Script:
-          #
-          # This will start a quest called "Skeleton Encampment."  The actual
-          # Quest SCRIPT is called 'Skeleton Invasion' and is defined elsewhere
-          # in the script.  This provides the ability to reuse quests, but give
-          # them different "Names."  It's not completely applicable in this
-          # particular case because this quest is very specific.  However, for
-          # other more "generic" quests, it's very important.
-          #
-          - QUEST START SCRIPT:'Skeleton Invasion' NAME:'Skeleton Encampment'
+    Mode: NONE
+  Steps:
+    Default:
+      Click Trigger:
+        Script:
+        #
+        # This will start a quest called "Skeleton Encampment."  The actual
+        # Quest SCRIPT is called 'Skeleton Invasion' and is defined elsewhere
+        # in the script.  This provides the ability to reuse quests, but give
+        # them different "Names."  It's not completely applicable in this
+        # particular case because this quest is very specific.  However, for
+        # other more "generic" quests, it's very important.
+        #
+        - QUEST START SCRIPT:'Skeleton Invasion' NAME:'Skeleton Encampment'
 
 #
 # This is the part of the "Skeleton Invasion" quest that instructs the user
@@ -31,17 +36,17 @@ Return to Town:
     MODE: ALL
     List:
     - QUEST FINISHED Skeleton Encampment.Return to Town'
-    Steps:
-      1:
-        Click Trigger:
-          Script:
-          - CHAT 'Welcome back, <PLAYER.NAME>.  You've done a great
-            service, but we've received grave news.  Word was received
-            from another of our spies that these skeletons are planning
-            an invasion of the city.  Apparently, the battle plans of
-            this invasion are within the camp that you investigated.  We
-            need you to return to that camp, find the battle plans, and
-            return them to us quickly.'
+  Steps:
+    Default:
+      Click Trigger:
+        Script:
+        - CHAT 'Welcome back, <PLAYER.NAME>.  You've done a great
+          service, but we've received grave news.  Word was received
+          from another of our spies that these skeletons are planning
+          an invasion of the city.  Apparently, the battle plans of
+          this invasion are within the camp that you investigated.  We
+          need you to return to that camp, find the battle plans, and
+          return them to us quickly.'
 
 #
 # This is the script that will be used to assign the "Find the Instigator"
@@ -74,8 +79,8 @@ Scribe Script:
     Mode: ALL
     List:
     - ITEM MATERIAL:PAPER 'NAME:Misplaced Skeleton Commander Note' QTY:1
-    Steps:
-    1:
+  Steps:
+    Default:
       Click Trigger:
         Script:
         - CHAT "Ah, <PLAYER.NAME>, that note is written in the ancient tongue of 
@@ -123,49 +128,49 @@ DropNote:
   # the entire quest.
   #
   Chapters:
+    #
+    # This is the "Default Chapter."  It requires the user to travel to a
+    # certain location in the world.
+    #
+    'Find the Camp':
       #
-      # This is the "Default Chapter."  It requires the user to travel to a
-      # certain location in the world.
+      # The "Introduction" section of the quest is a script that gets
+      # run when the chapter starts.
       #
-      'Find the Camp':
-        #
-        # The "Introduction" section of the quest is a script that gets
-        # run when the chapter starts.
-        #
-        Introduction:
-        - CHAT '<PLAYER.NAME>, we've just received news that there's an 
-          encampment of skeletons outside of town.  All of our spies have 
-          currently been assigned to other duties and we're in need of someone 
-          to scout it out and return to me the news of what's going on.'
-
-        #
-        # The "Goals" section creates listeners that must be satisfied
-        # in order to "complete" the chapter.  Upon satisfying all of 
-        # the goals, the "On Completion" script will run.
-        #
-        Goals:
-        - TRAVEL LOCATION<NOTABLE.LOC:Skeleton Encampment> RADIUS:10
-
-        #
-        # Once all of the goals have been satisfied, this script will be
-        # run.
-        #
-        On Completion:
-        - JOURNAL ADD 'You found the skeleton encampment.  You decide
-          to return to <NPC.NAME> and let him know the news.'
-        - NARRATE 'Good job!  You found the encampment.  Now return to
-          <NPC.NAME> to report the news.'
+      Introduction:
+      - CHAT '<PLAYER.NAME>, we've just received news that there's an 
+        encampment of skeletons outside of town.  All of our spies have 
+        currently been assigned to other duties and we're in need of someone 
+        to scout it out and return to me the news of what's going on.'
 
       #
-      # This chapter becomes active when the user completes the "Find the
-      # Camp' chapter.  It requires the user to travel back to the NPC that
-      # gave them the quest.
+      # The "Goals" section creates listeners that must be satisfied
+      # in order to "complete" the chapter.  Upon satisfying all of 
+      # the goals, the "On Completion" script will run.
       #
-      'Return to Town':
-        Requirements:
-          Mode: All
-          List:
-          - QUEST FINISHED 'Find the Camp'
+      Goals:
+      - TRAVEL LOCATION<NOTABLE.LOC:Skeleton Encampment> RADIUS:10
+
+      #
+      # Once all of the goals have been satisfied, this script will be
+      # run.
+      #
+      On Completion:
+      - JOURNAL ADD 'You found the skeleton encampment.  You decide
+        to return to <NPC.NAME> and let him know the news.'
+      - NARRATE 'Good job!  You found the encampment.  Now return to
+        <NPC.NAME> to report the news.'
+
+    #
+    # This chapter becomes active when the user completes the "Find the
+    # Camp' chapter.  It requires the user to travel back to the NPC that
+    # gave them the quest.
+    #
+    'Return to Town':
+      Requirements:
+        Mode: All
+        List:
+        - QUEST FINISHED 'Find the Camp'
 
         #
         # The goal of this chapter is that the player must return to the
@@ -180,90 +185,89 @@ DropNote:
         - NARRATE 'You've returned with news of the encampment, but
           grave news has been received.'
 
+    #
+    # This chapter has the user killing skeletons until they receive an
+    # item called "Skeleton Invasion Plans."  Once they receive the item,
+    # they are instructed to return the plans back to the NPC that gave
+    # them the quest.
+    #
+    'Steal the Plans':
       #
-      # This chapter has the user killing skeletons until they receive an
-      # item called "Skeleton Invasion Plans."  Once they receive the item,
-      # they are instructed to return the plans back to the NPC that gave
-      # them the quest.
+      # This chapter becomes available once the user completes the "Return to Town"
+      # chapter.
       #
-      'Steal the Plans':
-        #
-        # This chapter becomes available once the user completes the "Return to Town"
-        # chapter.
-        #
-        Requirements:
-          Mode: ALL
-          List:
-          - QUEST FINISHED 'Return to Town'
-
-        #
-        # This chapter requires a custom item called "Skeleton Battle Plans."  So
-        # create a custom item called "Skeleton Battle Plans" that is based on a
-        # particular Minecraft Item.  It will drop at the specified location and
-        # radius if the given entity is killed. Potentially support WorldGuard
-        # regions.  It goes in the introduction because this script is started as
-        # soon as the chapter begins.  It sets up the chapter so that the goals can
-        # be completed.
-        #
-        Introduction:
-        - NEW ITEMSTACK ITEM:WRITTEN_BOOK QTY:1 NAME:battleplans
-        - ENGRAVE NAME:'Skeleton Battle Plans'
-        - BOOK SCRIPT:BattlePlans ITEM:ITEMSTACK.battleplans
-        - ITEMDROP ITEM:ITEMSTACK.battleplans LOCATION:<NOTABLE.LOC:Skeleton Encampment> RADIUS:10 DROPSFROM:ENTITYID DROPRATE:100
-        
-        #
-        # The goal is to collect the battle plans.
-        #
-        Goals:
-        - COLLECT ITEM:PAPER NAME:'Skeleton Battle Plans' QTY:1
-
-        #
-        # Once the user picks up the battle plans, they're done with this chapter.
-        #
-        On Completion:
-        - JOURNAL ADD 'You found the battle plans!  You hustle off back
-          to <NPC.NAME> to hand them over so that the invasion can be
-          prevented.
-        - NARRATE 'You found the plans!  Return them to <NPC.NAME> to
-          save the city from the monstrous horde.  Hurry!  Time is
-          running out!'
+      Requirements:
+        Mode: ALL
+        List:
+        - QUEST FINISHED 'Return to Town'
 
       #
-      # This is the final chapter of the quest where the player returns th eplans to the
-      # NPC that gave them the quest.
+      # This chapter requires a custom item called "Skeleton Battle Plans."  So
+      # create a custom item called "Skeleton Battle Plans" that is based on a
+      # particular Minecraft Item.  It will drop at the specified location and
+      # radius if the given entity is killed. Potentially support WorldGuard
+      # regions.  It goes in the introduction because this script is started as
+      # soon as the chapter begins.  It sets up the chapter so that the goals can
+      # be completed.
       #
-      'Return the Plans':
-        #
-        # The player must have already completed the "Steal the Plans" chapter.
-        #
-        Requirements:
-          Mode: All
-          List:
-          - QUEST FINISHED 'Steal the Plans'
+      Introduction:
+      - NEW ITEMSTACK ITEM:WRITTEN_BOOK QTY:1 NAME:battleplans
+      - ENGRAVE NAME:'Skeleton Battle Plans'
+      - BOOK SCRIPT:BattlePlans ITEM:ITEMSTACK.battleplans
+      - ITEMDROP ITEM:ITEMSTACK.battleplans LOCATION:<NOTABLE.LOC:Skeleton Encampment> RADIUS:10 DROPSFROM:ENTITYID DROPRATE:100
+      
+      #
+      # The goal is to collect the battle plans.
+      #
+      Goals:
+      - COLLECT ITEM:PAPER NAME:'Skeleton Battle Plans' QTY:1
 
-        #
-        # The user must now return to the NPC that gave them the quest.
-        #
-        Goals:
-        - TRAVEL LOCATION<NPC.LOC> RADIUS:3
+      #
+      # Once the user picks up the battle plans, they're done with this chapter.
+      #
+      On Completion:
+      - JOURNAL ADD 'You found the battle plans!  You hustle off back
+        to <NPC.NAME> to hand them over so that the invasion can be
+        prevented.
+      - NARRATE 'You found the plans!  Return them to <NPC.NAME> to
+        save the city from the monstrous horde.  Hurry!  Time is
+        running out!'
 
-        #
-        # This is an "Auto Chat" script that executes upon completion of this chapter,
-        # in that the NPC talks to the player without the player having to interact with it.
-        #
-        On Completion:
-        - JOURNAL ADD 'You've returned the plans to <NPC.NAME> and in the process, saved
-          hundreds of lives.  But you can't help but wonder, who could have been responsible
-          responsible for orchestrating such a calamity.
-        - NARRATE 'Congratulations!  You've returned the battle plans to
-          <NPC.NAME> and prevented the skeleton invasion.
-        - CHAT 'We owe you a great debt of gratitude, <PLAYER.NAME>.
-          Please accept this small token as our thank you for a job well done.
-        - SHOUT "<PLAYER.NAME> has saved the city from certain destruction!"
-        - TAKE ITEM:Skeleton Battle Plans QTY:1
-        - GIVE MONEY QTY:50
-        - GIVE EXPERIENCE QTY:1000
+    #
+    # This is the final chapter of the quest where the player returns th eplans to the
+    # NPC that gave them the quest.
+    #
+    'Return the Plans':
+      #
+      # The player must have already completed the "Steal the Plans" chapter.
+      #
+      Requirements:
+        Mode: All
+        List:
+        - QUEST FINISHED 'Steal the Plans'
 
+      #
+      # The user must now return to the NPC that gave them the quest.
+      #
+      Goals:
+      - TRAVEL LOCATION<NPC.LOC> RADIUS:3
+
+      #
+      # This is an "Auto Chat" script that executes upon completion of this chapter,
+      # in that the NPC talks to the player without the player having to interact with it.
+      #
+      On Completion:
+      - JOURNAL ADD 'You've returned the plans to <NPC.NAME> and in the process, saved
+        hundreds of lives.  But you can't help but wonder, who could have been responsible
+        responsible for orchestrating such a calamity.
+      - NARRATE 'Congratulations!  You've returned the battle plans to
+        <NPC.NAME> and prevented the skeleton invasion.
+      - CHAT 'We owe you a great debt of gratitude, <PLAYER.NAME>.
+        Please accept this small token as our thank you for a job well done.
+      - SHOUT "<PLAYER.NAME> has saved the city from certain destruction!"
+      - TAKE ITEM:Skeleton Battle Plans QTY:1
+      - GIVE MONEY QTY:50
+      - GIVE EXPERIENCE QTY:1000
 
 #
 # This is an extension to the "Skeleton Invasion" quest.  This demonstrates how
