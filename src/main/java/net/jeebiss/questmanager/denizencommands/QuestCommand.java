@@ -50,6 +50,7 @@ public class QuestCommand extends AbstractCommand{
 			throws CommandExecutionException {
 		switch ((QuestType)scriptEntry.getObject("TYPE")) {
 		case START:
+			dB.echoDebug("Starting new Quest.");
 			QuestController questController = new QuestController((String) scriptEntry.getObject("scriptName"), (String) scriptEntry.getObject("questName"));
 			break;
 

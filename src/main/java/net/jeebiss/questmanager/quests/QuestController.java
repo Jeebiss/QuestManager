@@ -19,7 +19,7 @@ public class QuestController {
 	
 	
 	public QuestController(String scriptName, String questName) {
-		dB.echoDebug("Creating a controller for " + scriptName + " as " + questName);
+		dB.echoDebug("Creating a new controller for " + scriptName + " as " + questName);
 		
 		//get list of chapters
 		if (denizen.getScripts().getString(scriptName.toUpperCase() + ".CHAPTERS") != null 
@@ -43,6 +43,7 @@ public class QuestController {
 				for (String requirement : requirements) {
 					// check requirements at some point
 				}
+				
 			} else return chapter;
 		}
 		return null;
