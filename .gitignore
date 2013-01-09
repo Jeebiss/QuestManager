@@ -15,7 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
-QuestMaster.iml
+QuestManager.iml
 
 # External tool builders
 .externalToolBuilders/
