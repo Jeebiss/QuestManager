@@ -2,10 +2,10 @@ package net.jeebiss.questmanager;
 
 import net.citizensnpcs.Citizens;
 import net.jeebiss.questmanager.commands.QMCommandHandler;
-import net.jeebiss.questmanager.denizencommands.QuestCommand;
-import net.jeebiss.questmanager.denizencommands.QuestVarCommand;
-import net.jeebiss.questmanager.denizenlisteners.TravelListenerInstance;
-import net.jeebiss.questmanager.denizenlisteners.TravelListenerType;
+import net.jeebiss.questmanager.denizen.commands.QuestCommand;
+import net.jeebiss.questmanager.denizen.commands.QuestVarCommand;
+import net.jeebiss.questmanager.denizen.listeners.TravelListenerInstance;
+import net.jeebiss.questmanager.denizen.listeners.TravelListenerType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -50,7 +50,7 @@ public class QuestManager extends JavaPlugin {
 	@Override
 	public void onDisable() {
 
-}
+	}
 
     // Initialize Bukkit File Configuration Fields
     private FileConfiguration savesConfig = null;

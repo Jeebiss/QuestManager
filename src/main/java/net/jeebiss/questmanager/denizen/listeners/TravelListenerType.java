@@ -1,4 +1,4 @@
-package net.jeebiss.questmanager.denizenlisteners;
+package net.jeebiss.questmanager.denizen.listeners;
 
 import net.aufdemrand.denizen.listeners.AbstractListenerType;
 

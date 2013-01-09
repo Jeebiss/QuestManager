@@ -1,4 +1,4 @@
-package net.jeebiss.questmanager.denizencommands;
+package net.jeebiss.questmanager.denizen.commands;
 
 import net.aufdemrand.denizen.exceptions.CommandExecutionException;
 import net.aufdemrand.denizen.exceptions.InvalidArgumentsException;

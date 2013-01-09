@@ -1,4 +1,4 @@
-package net.jeebiss.questmanager.denizenlisteners;
+package net.jeebiss.questmanager.denizen.listeners;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import net.aufdemrand.denizen.utilities.arguments.aH.ArgumentType;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import net.jeebiss.questmanager.denizenlisteners.TravelListenerType.TravelType;
+import net.jeebiss.questmanager.denizen.listeners.TravelListenerType.TravelType;
 
 public class TravelListenerInstance extends AbstractListener implements Listener{
 	

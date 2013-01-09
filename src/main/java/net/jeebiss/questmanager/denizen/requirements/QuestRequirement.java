@@ -1,4 +1,4 @@
-package net.jeebiss.questmanager.denizenrequirements;
+package net.jeebiss.questmanager.denizen.requirements;
 
 import java.util.List;
 
@@ -75,12 +75,11 @@ public class QuestRequirement extends AbstractRequirement{
 				// if 'chapter' exists, then it has a Status:
 				chapterStatus = QM.getSaves().getString("Quests." + playerName + "." + quest + "." + chapter + ".Status");
 				
-				// if the 'chapterStatus' is qual to the type of
+				// if the 'chapterStatus' is equal to the type of
 				// check, then the requirement is met. Then return
 				// the outcome.
 				if (chapterStatus == TYPE.name()) outcome = true;
-				return outcome;
-			}
+			} 
 			
 		} else outcome = false;
 		
