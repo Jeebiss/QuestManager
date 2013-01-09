@@ -12,6 +12,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class QuestManager extends JavaPlugin {
 	
 	QMCommandHandler commandHandler;
@@ -42,6 +47,54 @@ public class QuestManager extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		
-	}
+
+}
+
+    // Initialize Bukkit File Configuration Fields
+    private FileConfiguration savesConfig = null;
+    private File savesConfigFile = null;
+
+    /**
+     * Syncs the current copy in memory of 'saves' from the disk. Does not invoke
+     * a save first, so any changes that are in memory that have not yet been
+     * saved to disk may be lost.
+     *
+     */
+    public void reloadSaves() {
+        if (savesConfigFile == null) {
+            savesConfigFile = new File(getDataFolder(), "saves.yml");
+        }
+        savesConfig = YamlConfiguration.loadConfiguration(savesConfigFile);
+    }
+
+    /**
+     * Retrieves a manageable keyed collection of the contents of the 'saves'
+     * in memory.
+     *
+     * @return the current saves
+     */
+    public FileConfiguration getSaves() {
+        if (savesConfig == null) {
+            reloadSaves();
+        }
+        return savesConfig;
+    }
+
+    /**
+     * Saves the copy of 'saves' in memory to the disk as 'saves.yml'. If any changes
+     * in the disk saves.yml have not been synced with the copy in memory with
+     * {@link #reloadSaves()}, they may be lost.
+     *
+     */
+    public void saveSaves() {
+        if (savesConfig == null || savesConfigFile == null) {
+            return;
+        }
+        try {
+            savesConfig.save(savesConfigFile);
+        } catch (IOException ex) {
+            Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save config to " + savesConfigFile, ex);
+        }
+    }
+
 }

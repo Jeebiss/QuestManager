@@ -4,9 +4,8 @@
   <artifactId>questmanager</artifactId>
   <version>0.1-SNAPSHOT</version>
   <name>Quest Manager</name>
-  <description>Quest Manager for Denizens</description>
-  
-    
+  <description>Quest Manager for Denizen</description>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<craftbukkit.version>LATEST</craftbukkit.version>
@@ -52,4 +51,5 @@
 		<scope>provided</scope>
 	</dependency>
 	</dependencies>
+
 </project>
