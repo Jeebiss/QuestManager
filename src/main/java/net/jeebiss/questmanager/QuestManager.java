@@ -6,6 +6,7 @@ import net.jeebiss.questmanager.denizen.commands.QuestCommand;
 import net.jeebiss.questmanager.denizen.commands.QuestVarCommand;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerInstance;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerType;
+import net.jeebiss.questmanager.denizen.requirements.QuestRequirement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -31,14 +32,16 @@ public class QuestManager extends JavaPlugin {
 		citizens = (Citizens) Bukkit.getServer().getPluginManager().getPlugin("Citizens");
 		commandHandler = new QMCommandHandler(citizens);
 		
-		//Register LISTENERs with Denizen
+		//Register DSCRIPT LISTENERs with Denizen
 		new TravelListenerType().activate().as("KILL").withClass(TravelListenerInstance.class);
 		
 		//Register DSCRIPT COMMANDS with Denizen
 		new QuestCommand().activate().as("QUEST").withOptions("To Be Determined", 1);
 		new QuestVarCommand().activate().as("QUESTVAR").withOptions("[NAME:Quest Script Name] [VARIABLE:Variable Name] [VALUE:Value]", 3);
-
-
+		
+		//Register DSCRIPT REQUIREMENTS with Denizen
+		new QuestRequirement().activate().as("FLAGGED").withOptions("NO ARGS", 0);
+		
 	}
 	
 	@Override
