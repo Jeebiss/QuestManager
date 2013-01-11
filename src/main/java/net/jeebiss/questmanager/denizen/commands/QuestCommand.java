@@ -1,5 +1,7 @@
 package net.jeebiss.questmanager.denizen.commands;
 
+import org.bukkit.entity.Player;
+
 import net.aufdemrand.denizen.exceptions.CommandExecutionException;
 import net.aufdemrand.denizen.exceptions.InvalidArgumentsException;
 import net.aufdemrand.denizen.scripts.ScriptEntry;
@@ -16,6 +18,8 @@ public class QuestCommand extends AbstractCommand{
 	
 	private String scriptName = null;
 	private String questName = null;
+	
+	private Player player;
 	
 	@Override
 	public void parseArgs(ScriptEntry scriptEntry)
@@ -39,10 +43,13 @@ public class QuestCommand extends AbstractCommand{
 			}
 
 		}
+
+		player = scriptEntry.getPlayer();
 		
 		scriptEntry.addObject("TYPE", TYPE);
 		scriptEntry.addObject("scriptName", scriptName);
 		scriptEntry.addObject("questName", questName);
+		scriptEntry.addObject("player", player);
 	}
 
 	@Override
@@ -51,7 +58,8 @@ public class QuestCommand extends AbstractCommand{
 		switch ((QuestType)scriptEntry.getObject("TYPE")) {
 		case START:
 			dB.echoDebug("Starting new Quest.");
-			QuestController questController = new QuestController((String) scriptEntry.getObject("scriptName"), (String) scriptEntry.getObject("questName"));
+			QuestController questController = new QuestController((String) scriptEntry.getObject("scriptName"), 
+					(String) scriptEntry.getObject("questName"), (Player) scriptEntry.getObject("player"));
 			break;
 
 		case FINISH:
