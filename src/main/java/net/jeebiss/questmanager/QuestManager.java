@@ -27,6 +27,8 @@ public class QuestManager extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		//load saves.yml
+		reloadSaves();
 		
 		//Register Citizens 2 command handling
 		citizens = (Citizens) Bukkit.getServer().getPluginManager().getPlugin("Citizens");
@@ -52,7 +54,7 @@ public class QuestManager extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-
+		saveSaves();
 	}
 
     // Initialize Bukkit File Configuration Fields
