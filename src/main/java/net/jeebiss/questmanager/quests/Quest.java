@@ -68,4 +68,22 @@ public class Quest {
 		this.chapters.add(chapter);
 		return chapter;
 	}
+	
+	/**
+	 * Returns the chapter that has the given chapter name, or null if the
+	 * chapter name does not exist in the quest.
+	 * 
+	 * @param chapterName	The name of the chapter to get.
+	 * 
+	 * @return	The chapter associated to the specified name, or null if it is
+	 * 					not contained in the quest.
+	 */
+	public QuestChapter getChapter (String chapterName) {
+		for (QuestChapter chapter : this.chapters) {
+			if (chapter.getName().equalsIgnoreCase(chapterName)) {
+				return chapter;
+			}
+		}
+		return null;
+	}
 }
