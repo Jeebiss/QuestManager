@@ -41,12 +41,7 @@ public class GoalBuilder {
 			} catch (InvalidArgumentsException e) {
 				e.printStackTrace();
 			}
-		}
-		
-		// These are used to call the listener class,
-		// which will use the args parsed from the 
-		// above loops.
-		
+		} 
 		
 	}
 

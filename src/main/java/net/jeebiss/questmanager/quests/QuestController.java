@@ -51,24 +51,33 @@ public class QuestController {
 		//if Introduction: exists, get the list
 		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".Introduction")) {
 			introCommands = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".Introduction");
+			dB.echoDebug("...Introduction: commands acquired.");
 		}
 		
 		//if Goals: exists, get the list
 		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".Goals")) {
 			goals = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".Goals");
+			dB.echoDebug("...Goals: acquired.");
 		}
 		
 		//if Conclusion: exists, get the list
 		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".Conclusion")) {
 			conclusionCommands = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".Conclusion");
+			dB.echoDebug("...Conclusion: acquired.");
 		}
 		
 		//if we have introCommands, do them before we build all the listeners
 		if (introCommands != null) {
 			introScriptEntries = scriptBuilder.buildScriptEntries(player, introCommands, scriptName);
 			scriptBuilder.queueScriptEntries(player, introScriptEntries, QueueType.PLAYER_TASK);
+			dB.echoDebug("...executing Introduction commands");
 		}
 		
+		// time to build all the goals for the
+		// chapter. Still need some sort of 
+		// finished event.
+		//
+		//create a new GoalBuilder
 		
 	}
 	
@@ -81,6 +90,7 @@ public class QuestController {
 				
 				if (requirements != null) {
 					//send the requirement list to the denizen requirement checker
+					dB.echoDebug("...checking requirements for " + chapter);
 				}
 				
 				//TODO properly handle requirements!
