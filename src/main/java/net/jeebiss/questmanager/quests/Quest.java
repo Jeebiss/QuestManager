@@ -54,4 +54,18 @@ public class Quest {
 	public List<QuestChapter> getChapters () {
 		return this.chapters;
 	}
+	
+	/**
+	 * Creates a new quest chapter with the specified name and completion status.
+	 * 
+	 * @param chapterName	The name of the chapter.
+	 * @param complete	True if the chapter is complete, false otherwise.
+	 * 
+	 * @return	The newly created quest chapter.
+	 */
+	public QuestChapter addChapter (String chapterName, boolean complete) {
+		QuestChapter	chapter	= new QuestChapter (chapterName, complete);
+		this.chapters.add(chapter);
+		return chapter;
+	}
 }
