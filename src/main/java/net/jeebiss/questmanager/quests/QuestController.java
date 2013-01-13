@@ -70,8 +70,21 @@ public class QuestController {
 		
 		//if we have introCommands, do them before we build all the listeners
 		if (introCommands != null) {
-			introScriptEntries = scriptBuilder.buildScriptEntries(player, introCommands, scriptName);
-			scriptBuilder.queueScriptEntries(player, introScriptEntries, QueueType.PLAYER);
+//			introScriptEntries = scriptBuilder.buildScriptEntries(player, introCommands, scriptName);
+//			scriptBuilder.queueScriptEntries(player, introScriptEntries, QueueType.PLAYER);
+			//
+			// Queue the script in the player's queue.
+			//
+			scriptBuilder.queueScriptEntries (
+					player, 
+				scriptBuilder.buildScriptEntries (
+						player, 
+						npc, 
+						introCommands, 
+						scriptName, 
+						null), 
+				QueueType.PLAYER);
+
 			dB.echoDebug("...executing Introduction commands");
 		}
 		
