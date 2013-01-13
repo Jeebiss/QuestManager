@@ -31,8 +31,8 @@ public class QuestJournal {
 	 * 
 	 * @return	The newly created quest object.
 	 */
-	public Quest addQuest (String questName, String questScriptName) {
-		Quest	quest = new Quest (questName, questScriptName);
+	public Quest addQuest (String questName, String questScriptName, String questDescription) {
+		Quest	quest = new Quest (questName, questScriptName, questDescription);
 		this.quests.put (questName, quest);
 		return quest;
 	}
