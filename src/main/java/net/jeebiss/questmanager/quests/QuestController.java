@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import net.aufdemrand.denizen.Denizen;
+import net.aufdemrand.denizen.npc.DenizenNPC;
 import net.aufdemrand.denizen.scripts.ScriptBuilder;
 import net.aufdemrand.denizen.scripts.ScriptEngine.QueueType;
 import net.aufdemrand.denizen.scripts.ScriptEntry;
@@ -28,7 +29,7 @@ public class QuestController {
 	String currentChapter = null;
 	
 	
-	public QuestController(String scriptName, String questName, Player player) {
+	public QuestController(String scriptName, String questName, Player player, DenizenNPC npc) {
 		dB.echoDebug("Creating a new controller for " + scriptName + " as " + questName);
 		
 		//get list of chapters
@@ -70,7 +71,7 @@ public class QuestController {
 		//if we have introCommands, do them before we build all the listeners
 		if (introCommands != null) {
 			introScriptEntries = scriptBuilder.buildScriptEntries(player, introCommands, scriptName);
-			scriptBuilder.queueScriptEntries(player, introScriptEntries, QueueType.PLAYER_TASK);
+			scriptBuilder.queueScriptEntries(player, introScriptEntries, QueueType.PLAYER);
 			dB.echoDebug("...executing Introduction commands");
 		}
 		

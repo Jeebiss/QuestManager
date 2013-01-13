@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 
 import net.aufdemrand.denizen.exceptions.CommandExecutionException;
 import net.aufdemrand.denizen.exceptions.InvalidArgumentsException;
+import net.aufdemrand.denizen.npc.DenizenNPC;
 import net.aufdemrand.denizen.scripts.ScriptEntry;
 import net.aufdemrand.denizen.scripts.commands.AbstractCommand;
 import net.aufdemrand.denizen.utilities.arguments.aH;
@@ -20,6 +21,8 @@ public class QuestCommand extends AbstractCommand{
 	private String questName = null;
 	
 	private Player player;
+	
+	private DenizenNPC npc;
 	
 	@Override
 	public void parseArgs(ScriptEntry scriptEntry)
@@ -45,11 +48,13 @@ public class QuestCommand extends AbstractCommand{
 		}
 
 		player = scriptEntry.getPlayer();
+		npc = scriptEntry.getNPC();
 		
 		scriptEntry.addObject("TYPE", TYPE);
 		scriptEntry.addObject("scriptName", scriptName);
 		scriptEntry.addObject("questName", questName);
 		scriptEntry.addObject("player", player);
+		scriptEntry.addObject("npc", npc);
 	}
 
 	@Override
@@ -59,7 +64,7 @@ public class QuestCommand extends AbstractCommand{
 		case START:
 			dB.echoDebug("Starting new Quest.");
 			QuestController questController = new QuestController((String) scriptEntry.getObject("scriptName"), 
-					(String) scriptEntry.getObject("questName"), (Player) scriptEntry.getObject("player"));
+					(String) scriptEntry.getObject("questName"), (Player) scriptEntry.getObject("player"), (DenizenNPC) scriptEntry.getObject("npc"));
 			break;
 
 		case FINISH:
