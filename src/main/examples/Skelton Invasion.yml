@@ -138,10 +138,10 @@ DropNote:
       # run when the chapter starts.
       #
       Introduction:
-      - CHAT '<PLAYER.NAME>, we've just received news that there's an 
+      - CHAT "<PLAYER.NAME>, we've just received news that there's an 
         encampment of skeletons outside of town.  All of our spies have 
         currently been assigned to other duties and we're in need of someone 
-        to scout it out and return to me the news of what's going on.'
+        to scout it out and return to me the news of what's going on."
 
       #
       # The "Goals" section creates listeners that must be satisfied
@@ -156,10 +156,10 @@ DropNote:
       # run.
       #
       On Completion:
-      - JOURNAL ADD 'You found the skeleton encampment.  You decide
-        to return to <NPC.NAME> and let him know the news.'
-      - NARRATE 'Good job!  You found the encampment.  Now return to
-        <NPC.NAME> to report the news.'
+      - JOURNAL ADD "You found the skeleton encampment.  You decide
+        to return to <NPC.NAME> and let him know the news."
+      - NARRATE "Good job!  You found the encampment.  Now return to
+        <NPC.NAME> to report the news."
 
     #
     # This chapter becomes active when the user completes the "Find the
@@ -180,10 +180,10 @@ DropNote:
         - TRAVEL LOCATION<NPC.LOC> RADIUS:3
         
       On Completion:
-      - JOURNAL ADD 'You returned to <NPC.NAME> with news of the
-        skeleton encampment, but other news has been received.'
-      - NARRATE 'You've returned with news of the encampment, but
-        grave news has been received.'
+      - JOURNAL ADD "You returned to <NPC.NAME> with news of the
+        skeleton encampment, but other news has been received."
+      - NARRATE "You've returned with news of the encampment, but
+        grave news has been received."
 
     #
     # This chapter has the user killing skeletons until they receive an
@@ -257,13 +257,13 @@ DropNote:
       # in that the NPC talks to the player without the player having to interact with it.
       #
       On Completion:
-      - JOURNAL ADD 'You've returned the plans to <NPC.NAME> and in the process, saved
+      - JOURNAL ADD "You've returned the plans to <NPC.NAME> and in the process, saved
         hundreds of lives.  But you can't help but wonder, who could have been responsible
-        responsible for orchestrating such a calamity.
-      - NARRATE 'Congratulations!  You've returned the battle plans to
-        <NPC.NAME> and prevented the skeleton invasion.
-      - CHAT 'We owe you a great debt of gratitude, <PLAYER.NAME>.
-        Please accept this small token as our thank you for a job well done.
+        responsible for orchestrating such a calamity."
+      - NARRATE "Congratulations!  You've returned the battle plans to
+        <NPC.NAME> and prevented the skeleton invasion."
+      - CHAT "We owe you a great debt of gratitude, <PLAYER.NAME>.
+        Please accept this small token as our thank you for a job well done."
       - SHOUT "<PLAYER.NAME> has saved the city from certain destruction!"
       - TAKE ITEM:Skeleton Battle Plans QTY:1
       - GIVE MONEY QTY:50
