@@ -12,18 +12,21 @@ import java.util.List;
 public class Quest {
 	private	String	name;
 	private	String	scriptName;
+	private	String	description;
 	private	List<QuestChapter>	chapters;
 	
 	/**
 	 * Creates a new Quest object using the name of the quest and the quest
 	 * manager/denizen script name.
 	 * 
-	 * @param name
-	 * @param scriptName
+	 * @param name	The name of the quest.
+	 * @param scriptName	The script name of the quest.
+	 * @param	description	The description of the quest.
 	 */
-	public Quest (String name, String scriptName) {
+	public Quest (String name, String scriptName, String description) {
 		this.name = name;
 		this.scriptName = scriptName;
+		this.description = description;
 		this.chapters = new ArrayList<QuestChapter> ();
 	}
 	
@@ -34,6 +37,15 @@ public class Quest {
 	 */
 	public String getName () {
 		return this.name;
+	}
+	
+	/**
+	 * Returns the description of the quest.
+	 * 
+	 * @return	The description of the quest.
+	 */
+	public String getDescription () {
+		return this.description;
 	}
 	
 	/**
