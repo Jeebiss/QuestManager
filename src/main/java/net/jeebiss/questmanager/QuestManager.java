@@ -7,16 +7,20 @@ import net.jeebiss.questmanager.denizen.commands.QuestVarCommand;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerInstance;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerType;
 import net.jeebiss.questmanager.denizen.requirements.QuestRequirement;
+import net.jeebiss.questmanager.quests.QuestJournal;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +29,25 @@ public class QuestManager extends JavaPlugin {
 	QMCommandHandler commandHandler;
 	Citizens citizens;
 	
+	private	Map<Player,QuestJournal>	playerQuestJournals = new HashMap<Player,QuestJournal> ();
+	
+	/**
+	 * Returns a player's quest journal.  If the player does not have a quest
+	 * journal, then this will create one for them and return that to the caller.
+	 * 
+	 * @param player	The player to get the quest journal for.
+	 * 
+	 * @return	The player's quest journal.
+	 */
+	public QuestJournal getQuestJournal (Player player) {
+		QuestJournal qj = this.playerQuestJournals.get(player);
+		if (qj == null) {
+			qj = new QuestJournal();
+			this.playerQuestJournals.put(player, qj);
+		}
+		return qj;
+	}
+
 	@Override
 	public void onEnable() {
 		//load saves.yml
