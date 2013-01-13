@@ -50,20 +50,20 @@ public class QuestController {
 		}
 		
 		//if Introduction: exists, get the list
-		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".INTRODUCTION")) {
-			introCommands = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".INTRODUCTION");
+		if (denizen.getScripts().contains((scriptName + ".Chapters." + currentChapter + ".Introduction").toUpperCase())) {
+			introCommands = denizen.getScripts().getStringList((scriptName + ".Chapters." + currentChapter + ".Introduction").toUpperCase());
 			dB.echoDebug("...Introduction: commands acquired.");
 		} else dB.echoDebug("...no introduction commands found");
 		
 		//if Goals: exists, get the list
-		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".GOALS")) {
-			goals = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".GOALS");
+		if (denizen.getScripts().contains((scriptName + ".Chapters." + currentChapter + ".Goals").toUpperCase())) {
+			goals = denizen.getScripts().getStringList((scriptName + ".Chapters." + currentChapter + ".Goals").toUpperCase());
 			dB.echoDebug("...Goals: acquired.");
 		} else dB.echoDebug("...no goals commands found");
 		
 		//if Conclusion: exists, get the list
-		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".CONCLUSION")) {
-			conclusionCommands = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".CONCLUSION");
+		if (denizen.getScripts().contains((scriptName + ".Chapters." + currentChapter + ".Conclusion").toUpperCase())) {
+			conclusionCommands = denizen.getScripts().getStringList((scriptName + ".Chapters." + currentChapter + ".Conclusion").toUpperCase());
 			dB.echoDebug("...Conclusion: acquired.");
 		} else dB.echoDebug("...no conclusion commands found");
 		
