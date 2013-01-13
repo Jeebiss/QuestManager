@@ -50,22 +50,22 @@ public class QuestController {
 		}
 		
 		//if Introduction: exists, get the list
-		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".Introduction")) {
-			introCommands = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".Introduction");
+		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".INTRODUCTION")) {
+			introCommands = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".INTRODUCTION");
 			dB.echoDebug("...Introduction: commands acquired.");
-		}
+		} else dB.echoDebug("...no introduction commands found");
 		
 		//if Goals: exists, get the list
-		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".Goals")) {
-			goals = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".Goals");
+		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".GOALS")) {
+			goals = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".GOALS");
 			dB.echoDebug("...Goals: acquired.");
-		}
+		} else dB.echoDebug("...no goals commands found");
 		
 		//if Conclusion: exists, get the list
-		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".Conclusion")) {
-			conclusionCommands = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".Conclusion");
+		if (denizen.getScripts().contains(scriptName.toUpperCase() + "." + currentChapter + ".CONCLUSION")) {
+			conclusionCommands = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + currentChapter + ".CONCLUSION");
 			dB.echoDebug("...Conclusion: acquired.");
-		}
+		} else dB.echoDebug("...no conclusion commands found");
 		
 		//if we have introCommands, do them before we build all the listeners
 		if (introCommands != null) {
@@ -88,7 +88,7 @@ public class QuestController {
 			//if there is no requirement list, rrturn the current chapter
 			if (!denizen.getScripts().contains(scriptName.toUpperCase() 
 					+ "." + chapter + ".REQUIREMENTS.LIST")) {
-				dB.echoDebug("...chapter " + chapter + "chosen with no requirments");
+				dB.echoDebug("...chapter " + chapter + " chosen with no requirments");
 				return chapter;
 			}
 			
@@ -97,7 +97,7 @@ public class QuestController {
 			
 			//If the list is empty, return chapter
 			if (requirements.isEmpty() || requirements == null ) {
-				dB.echoDebug("...chapter " + chapter + "chosen with no requirments");
+				dB.echoDebug("...chapter " + chapter + " chosen with no requirments");
 				return chapter;
 			}
 							
