@@ -17,6 +17,7 @@ public class QuestController {
 
 	Denizen denizen = (Denizen) Bukkit.getPluginManager().getPlugin("Denizen");
 	ScriptBuilder scriptBuilder = DenizenAPI.getCurrentInstance().getScriptEngine().getScriptBuilder();
+	
 	Set<String> chapters;
 	List<String> requirements;
 	List<String> introCommands;
@@ -84,24 +85,27 @@ public class QuestController {
 	public String getChapter(String scriptName) {
 		//parse over chapters
 		for (String chapter : chapters) {
-			if (denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + chapter + ".REQUIREMENTS") != null) {
-				//if there are requirements, check them.
-				requirements = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + chapter + ".REQUIREMENTS");
-				
-				if (requirements != null) {
-					//send the requirement list to the denizen requirement checker
-					dB.echoDebug("...checking requirements for " + chapter);
-				}
-				
-				//TODO properly handle requirements!
-				Boolean requirementsMet = false;
-				if (requirementsMet == true) {
-					return chapter;
-				}
-			// If there are no requirements, return this chapter.	
-			} else {
+			//if there is no requirement list, rrturn the current chapter
+			if (!denizen.getScripts().contains(scriptName.toUpperCase() 
+					+ "." + chapter + ".REQUIREMENTS.LIST")) {
+				dB.echoDebug("...chapter " + chapter + "chosen with no requirments");
 				return chapter;
 			}
+			
+			//if there is a List: node, get it.
+			requirements = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + chapter + ".REQUIREMENTS.LIST");
+			
+			//If the list is empty, return chapter
+			if (requirements.isEmpty() || requirements == null ) {
+				dB.echoDebug("...chapter " + chapter + "chosen with no requirments");
+				return chapter;
+			}
+							
+			//TODO properly handle requirements!
+			Boolean requirementsMet = false;
+			if (requirementsMet == true) {
+				return chapter;
+			}	
 		}
 		return null;
 	}
