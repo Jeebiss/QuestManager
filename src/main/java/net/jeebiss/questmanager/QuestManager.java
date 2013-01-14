@@ -153,6 +153,11 @@ public class QuestManager extends JavaPlugin implements Listener {
    */
   @EventHandler
   public void goalReached (ListenerFinishEvent finishedEvent) {
+	  String listenerID = finishedEvent.getId();
+	  Goal g = this.listnerIdToGoalMap.remove (listenerID);
+	  if (g != null) {
+		  g.setCompleted(true);
+	  }
   	dB.echoDebug ("goalReached (" + finishedEvent + ")");
   }
 	
@@ -163,6 +168,11 @@ public class QuestManager extends JavaPlugin implements Listener {
    */
   @EventHandler
   public void goalCancelled (ListenerCancelEvent cancelledEvent) {
+	  String listenerID = cancelledEvent.getId();
+	  Goal g = this.listnerIdToGoalMap.remove (listenerID);
+	  if (g != null) {
+		  g.cancel();
+	  }
   	dB.echoDebug ("goalCancelled (" + cancelledEvent + ")");
   }
 }

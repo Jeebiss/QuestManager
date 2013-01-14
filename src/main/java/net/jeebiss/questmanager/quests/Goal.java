@@ -10,6 +10,10 @@ public class Goal {
 		completed = false;
 	}
 
+	public void cancel () {
+		
+	}
+	
 	public void setID (String id) {
 		this.id = id;
 	}
