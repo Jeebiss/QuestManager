@@ -1,12 +1,12 @@
 package net.jeebiss.questmanager.quests;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import net.aufdemrand.denizen.exceptions.InvalidArgumentsException;
 import net.aufdemrand.denizen.exceptions.ScriptEntryCreationException;
 import net.aufdemrand.denizen.scripts.ScriptBuilder;
+import net.aufdemrand.denizen.scripts.ScriptEngine.QueueType;
 import net.aufdemrand.denizen.scripts.ScriptEntry;
-import net.aufdemrand.denizen.scripts.commands.core.ListenCommand;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 
 import org.bukkit.entity.Player;
@@ -16,6 +16,7 @@ public class GoalBuilder {
 	String listenerType;
 	String[] args;
 	
+	List<ScriptEntry> goalList = new ArrayList<ScriptEntry> ();
 	ScriptEntry scriptEntry;
 	ScriptBuilder scriptBuilder = DenizenAPI.getCurrentInstance().getScriptEngine().getScriptBuilder();
 	
@@ -33,16 +34,18 @@ public class GoalBuilder {
 				e.printStackTrace();
 			}
 			
-			try {
-				// Ideally this will parse the args of the given scriptEntry
-				DenizenAPI.getCurrentInstance().getCommandRegistry().get(ListenCommand.class).parseArgs(scriptEntry);
-				// Does this send the modified scriptEntry from parseArgs into execute?
-				DenizenAPI.getCurrentInstance().getCommandRegistry().get(ListenCommand.class).parseArgs(scriptEntry);
-			} catch (InvalidArgumentsException e) {
-				e.printStackTrace();
-			}
+			/*
+			 * Add the scriptEntry to the list.
+			 */
+			goalList.add(scriptEntry);
+		
 		} 
 		
+		/*
+		 * Ues build scriptEntry to build the
+		 * listener for the goal.
+		 */
+		DenizenAPI.getCurrentInstance().getScriptEngine().addToQue(player, goalList, QueueType.PLAYER_TASK);
 	}
 
 }
