@@ -41,6 +41,8 @@ public class QuestJournal {
 	
 	/**
 	 * Returns whether or not a player has started a particular quest chapter.
+	 * A quest chapter is considered "Started" if the chapter is in any of the
+	 * possible states:  Started, Failed, or Finished.
 	 * 
 	 * @param questName	The name of the quest
 	 * @param chapterName	The chapter name to check.
@@ -48,7 +50,7 @@ public class QuestJournal {
 	 * @return	True if the quest and quest chapter have been started.
 	 */
 	public boolean isQuestStarted (String questName, String chapterName) {
-		if (this.quests.containsKey(questName)		&&
+		if (this.quests.containsKey(questName)	&&
 				 this.quests.get(questName).getChapter(chapterName) != null) {
 			return true;
 		}
