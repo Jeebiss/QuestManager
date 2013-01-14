@@ -1,5 +1,7 @@
 package net.jeebiss.questmanager.quests;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,4 +68,9 @@ public class QuestChapter {
 	public Status getStatus () {
 		return this.status;
 	}
+	
+	Goal.addPropertyChangeListener(new PropertyChangeListener() {
+	    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+	    }
+	});
 }
