@@ -3,6 +3,7 @@ package net.jeebiss.questmanager.quests;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.aufdemrand.denizen.Denizen;
 import net.aufdemrand.denizen.exceptions.ScriptEntryCreationException;
 import net.aufdemrand.denizen.scripts.ScriptBuilder;
 import net.aufdemrand.denizen.scripts.ScriptEngine.QueueType;
@@ -16,7 +17,6 @@ public class GoalBuilder {
 	String listenerType;
 	String[] args;
 	
-	List<ScriptEntry> goalList = new ArrayList<ScriptEntry> ();
 	ScriptEntry scriptEntry;
 	ScriptBuilder scriptBuilder = DenizenAPI.getCurrentInstance().getScriptEngine().getScriptBuilder();
 	
@@ -33,19 +33,15 @@ public class GoalBuilder {
 			} catch (ScriptEntryCreationException e) {
 				e.printStackTrace();
 			}
-			
+				
 			/*
-			 * Add the scriptEntry to the list.
+			 * Ues build scriptEntry to build the
+			 * listener for the goal.
 			 */
-			goalList.add(scriptEntry);
 		
-		} 
-		
-		/*
-		 * Ues build scriptEntry to build the
-		 * listener for the goal.
-		 */
-		DenizenAPI.getCurrentInstance().getScriptEngine().addToQue(player, goalList, QueueType.PLAYER_TASK);
+			DenizenAPI.getCurrentInstance().getScriptEngine().getScriptExecuter().execute(scriptEntry);
+
+		}
 	}
 
 }
