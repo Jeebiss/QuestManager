@@ -98,6 +98,11 @@ public class QuestChapter {
 	    		if (numInProgress == 1) {
 	    			setStatus(Status.FINISHED);
 	    		}
+	    		return;
+	    		
+	    	} else if (newStatus == Goal.Status.CANCELLED) {
+	    		setStatus(Status.FINISHED);
+	    		return;
 	    	}
 	    	
 	    }
