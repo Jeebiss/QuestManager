@@ -18,7 +18,7 @@ public class QuestChapter {
 	private	String	name;
 	private	Status	status;
 	
-	List<Goal> goals = new ArrayList<Goal> ();
+	private	List<Goal> goals = new ArrayList<Goal> ();
 	
 
 	/**
@@ -68,11 +68,27 @@ public class QuestChapter {
 	public Status getStatus () {
 		return this.status;
 	}
+
 	public void addGoal (Goal goal){
-		goal.addPropertyChangeListener(new PropertyChangeListener() {
-		    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-		    }
-		});
 		this.goals.add(goal); 
+		
+		//
+		// Add a property change listener to the goal that is being added so that
+		// we can get event notifications when the goal changes status.
+		//
+		goal.addPropertyChangeListener(new PropertyChangeListener() {
+			/**
+			 * This will be called when the goal changes its status.
+			 * 
+			 * @param	propertyChangeEvent	The event.
+			 */
+	    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+	    	//
+	    	// Iterate over the goals to see if there's anything we need to do.
+	    	//
+	    	for (Goal g : goals) {
+	    	}
+	    }
+		});
 	}
 }
