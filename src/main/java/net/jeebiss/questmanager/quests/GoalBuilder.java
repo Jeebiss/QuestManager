@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
  * This is a utility class to build a list of goals used by Quest Manager to
  * determine when a player has completed a quest chapter.
  * 
- * @author Jeebis
+ * @author Jeebiss
  */
 public class GoalBuilder {
 	public GoalBuilder(Player player, List<String> commands) {

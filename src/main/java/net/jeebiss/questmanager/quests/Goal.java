@@ -2,8 +2,27 @@ package net.jeebiss.questmanager.quests;
 
 public class Goal {
 
+	private String id;
+	private Boolean completed;
+
 	public Goal() {
-		// TODO Auto-generated constructor stub
+		id = null;
+		completed = false;
 	}
 
+	public void setID (String id) {
+		this.id = id;
+	}
+	
+	public void setCompleted (Boolean completed) {
+		this.completed = completed;
+	}
+	
+	public String getID () {
+		return id;
+	}
+	
+	public Boolean isCompleted () {
+		return completed;
+	}
 }
