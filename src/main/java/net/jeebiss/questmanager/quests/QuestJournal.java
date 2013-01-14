@@ -3,6 +3,8 @@ package net.jeebiss.questmanager.quests;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.jeebiss.questmanager.quests.QuestChapter.Status;
+
 public class QuestJournal {
 	private	Map<String,Quest>	quests;
 
@@ -64,7 +66,7 @@ public class QuestJournal {
 	public boolean isQuestFinshed (String questName, String chapterName) {
 		if (this.quests.containsKey(questName)		&&
 				this.quests.get(questName).getChapter(chapterName) != null) {
-			return this.quests.get(questName).getChapter (chapterName).isComplete();
+			return this.quests.get(questName).getChapter (chapterName).getStatus() == Status.FINISHED;
 		}
 		return false;
 	}

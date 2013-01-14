@@ -14,6 +14,7 @@ import net.aufdemrand.denizen.scripts.ScriptEntry;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.jeebiss.questmanager.QuestManager;
+import net.jeebiss.questmanager.quests.QuestChapter.Status;
 
 public class QuestController {
 	Denizen denizen = (Denizen) Bukkit.getPluginManager().getPlugin("Denizen");
@@ -98,7 +99,7 @@ public class QuestController {
 		QuestChapter chapter = quest.getChapter(currentChapter);
 		if (chapter == null) {
 			dB.echoDebug ("Creating new chapter: " + currentChapter);
-			chapter = quest.addChapter(currentChapter, false);
+			chapter = quest.addChapter(currentChapter, Status.STARTED);
 			if (introCommands != null) {
 				//
 				// Queue the script in the player's queue.

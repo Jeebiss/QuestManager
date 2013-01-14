@@ -6,8 +6,13 @@ package net.jeebiss.questmanager.quests;
  * @author dbixler
  */
 public class QuestChapter {
+	public enum Status {
+		STARTED, FINISHED, FAILED
+	}
+	
 	private	String	name;
-	private	boolean	complete;
+	private	Status	status;
+	
 
 	/**
 	 * Create a new quest chapter that has not yet been completed.
@@ -16,18 +21,18 @@ public class QuestChapter {
 	 */
 	public QuestChapter (String name) {
 		this.name = name;
-		this.complete = false;
+		this.status = Status.STARTED;
 	}
 	
 	/**
 	 * Create a new quest chapter with a specified completion status.
 	 * 
 	 * @param name	The name of the quest chapter.
-	 * @param complete	True if the chapter is completed, false if not.
+	 * @param status	The quest status.
 	 */
-	public QuestChapter (String name, boolean complete) {
+	public QuestChapter (String name, Status status) {
 		this (name);
-		this.complete = complete;
+		this.status = status;
 	}
 	
 	/**
@@ -40,12 +45,12 @@ public class QuestChapter {
 	}
 	
 	/**
-	 * Sets the completion status of the quest chapter.
+	 * Sets the status of the quest chapter.
 	 * 
-	 * @param complete	True if the chapter is completed, false otherwise.
+	 * @param status	The status of the quest chapter.
 	 */
-	public void setComplete (boolean complete) {
-		this.complete = complete;
+	public void setStatus (Status status) {
+		this.status = status;
 	}
 	
 	/**
@@ -53,7 +58,7 @@ public class QuestChapter {
 	 * 
 	 * @return	True if the chapter is complete, false otherwise.
 	 */
-	public boolean isComplete () {
-		return this.complete;
+	public Status getStatus () {
+		return this.status;
 	}
 }

@@ -3,6 +3,8 @@ package net.jeebiss.questmanager.quests;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.jeebiss.questmanager.quests.QuestChapter.Status;
+
 /**
  * This is the Quest object that is used to represent a quest in the Quest
  * Manager plugin.
@@ -75,8 +77,8 @@ public class Quest {
 	 * 
 	 * @return	The newly created quest chapter.
 	 */
-	public QuestChapter addChapter (String chapterName, boolean complete) {
-		QuestChapter	chapter	= new QuestChapter (chapterName, complete);
+	public QuestChapter addChapter (String chapterName, Status status) {
+		QuestChapter	chapter	= new QuestChapter (chapterName, status);
 		this.chapters.add(chapter);
 		return chapter;
 	}
