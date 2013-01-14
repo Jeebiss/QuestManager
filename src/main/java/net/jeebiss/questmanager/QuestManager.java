@@ -11,6 +11,7 @@ import net.jeebiss.questmanager.denizen.listeners.TravelListenerInstance;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerType;
 import net.jeebiss.questmanager.denizen.requirements.QuestRequirement;
 import net.jeebiss.questmanager.quests.Goal;
+import net.jeebiss.questmanager.quests.Goal.Status;
 import net.jeebiss.questmanager.quests.QuestJournal;
 
 import org.bukkit.Bukkit;
@@ -156,7 +157,7 @@ public class QuestManager extends JavaPlugin implements Listener {
 	  String listenerID = finishedEvent.getId();
 	  Goal g = this.listnerIdToGoalMap.remove (listenerID);
 	  if (g != null) {
-		  g.setCompleted(true);
+		  g.setStatus(Goal.Status.COMPLETED);
 	  }
   	dB.echoDebug ("goalReached (" + finishedEvent + ")");
   }
@@ -171,7 +172,7 @@ public class QuestManager extends JavaPlugin implements Listener {
 	  String listenerID = cancelledEvent.getId();
 	  Goal g = this.listnerIdToGoalMap.remove (listenerID);
 	  if (g != null) {
-		  g.cancel();
+		  // TODO: Figure out cancel.
 	  }
   	dB.echoDebug ("goalCancelled (" + cancelledEvent + ")");
   }

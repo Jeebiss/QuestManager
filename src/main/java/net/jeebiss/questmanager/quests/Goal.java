@@ -1,32 +1,30 @@
 package net.jeebiss.questmanager.quests;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 public class Goal {
 
-	private String id;
-	private Boolean completed;
-
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	
+	public enum  Status { CANCELED, INPROGRESS, COMPLETED }
+	
+	Status status;
+	
 	public Goal() {
-		id = null;
-		completed = false;
-	}
-
-	public void cancel () {
-		
+		status = Status.INPROGRESS;
 	}
 	
-	public void setID (String id) {
-		this.id = id;
+	public void setStatus (Status status) {
+		pcs.firePropertyChange("status", this.status, status);
+		this.status = status;
 	}
 	
-	public void setCompleted (Boolean completed) {
-		this.completed = completed;
+	public Status getStatus () {
+		return status;
 	}
 	
-	public String getID () {
-		return id;
-	}
-	
-	public Boolean isCompleted () {
-		return completed;
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		pcs.addPropertyChangeListener(listener);
 	}
 }
