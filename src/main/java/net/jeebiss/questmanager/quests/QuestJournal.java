@@ -1,5 +1,6 @@
 package net.jeebiss.questmanager.quests;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,13 +17,24 @@ public class QuestJournal {
 	}
 
 	/**
-	 * Returns the map of Quest Names to quest Objects.
+	 * Returns the map of Quest Names to quest Objects.  The returned object is
+	 * unmodifiable.
 	 * 
 	 * @return	The map of quest names to quest objects.
 	 */
 	public Map<String,Quest> getQuests () {
-		// TODO:  This should be made immutable.
-		return this.quests;
+		return Collections.unmodifiableMap(this.quests);
+	}
+	
+	/**
+	 * Returns whether or not the quest journal contains a particular quest.
+	 * 
+	 * @param questName	The name of the quest to check for.
+	 * 
+	 * @return	True if the quest journal contains the quest, false otherwise.
+	 */
+	public boolean hasQuest (String questName) {
+		return this.quests.containsKey(questName);
 	}
 	
 	/**
