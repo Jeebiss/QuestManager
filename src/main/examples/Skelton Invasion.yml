@@ -2,6 +2,7 @@ Skeleton:
   Type: Assignment
   Interact Scripts:
   - 10 Find the Skeleton Camp
+  - 20 Find the Skeleton Camp Already Started
 
 #
 # This is the script that starts the user on the "Skeleton Invasion" quest.  The
@@ -10,7 +11,9 @@ Skeleton:
 Find the Skeleton Camp:
   Type: Interact
   Requirements: 
-    Mode: NONE
+    Mode: ALL
+    List:
+    - -QUEST STARTED 'Skeleton Encampment.Find the Camp'
   Steps:
     Default:
       Click Trigger:
@@ -24,6 +27,20 @@ Find the Skeleton Camp:
         # other more "generic" quests, it's very important.
         #
         - QUEST START 'SCRIPT:Skeleton Invasion' 'NAME:Skeleton Encampment'
+
+Find the Skeleton Camp Already Started:
+  Type: Interact
+  Requirements:
+    Mode: All
+    List:
+    - QUEST STARTED 'Skeleton Encampment.Find the Camp'
+    - -QUEST FINISHED 'Skeleton Encampment.Find the Camp'
+  Steps:
+    Default:
+      Click Trigger:
+        Script:
+        - CHAT "We need to find the location of that camp, <PLAYER.NAME>, 
+          please hurry!"
 
 #
 # This is the part of the "Skeleton Invasion" quest that instructs the user
