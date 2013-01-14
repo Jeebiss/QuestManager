@@ -13,11 +13,12 @@ import net.aufdemrand.denizen.scripts.ScriptEngine.QueueType;
 import net.aufdemrand.denizen.scripts.ScriptEntry;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizen.utilities.debugging.dB;
+import net.jeebiss.questmanager.QuestManager;
 
 public class QuestController {
-
 	Denizen denizen = (Denizen) Bukkit.getPluginManager().getPlugin("Denizen");
 	ScriptBuilder scriptBuilder = DenizenAPI.getCurrentInstance().getScriptEngine().getScriptBuilder();
+	QuestManager	qm = (QuestManager) Bukkit.getPluginManager().getPlugin ("Quest Manager");
 	
 	Set<String> chapters;
 	List<String> requirements;
@@ -28,9 +29,17 @@ public class QuestController {
 	
 	String currentChapter = null;
 	
-	
 	public QuestController(String scriptName, String questName, Player player, DenizenNPC npc) {
 		dB.echoDebug("Creating a new controller for " + scriptName + " as " + questName);
+		
+		if (qm == null) {
+			throw new RuntimeException ("Unable to locate the QuestManager plugin.");
+		}
+
+		//
+		// Fetch the player's quest journal.
+		//
+		QuestJournal qj = qm.getQuestJournal(player);
 		
 		//get list of chapters
 		if (denizen.getScripts().getString(scriptName.toUpperCase() + ".CHAPTERS") != null 
@@ -69,24 +78,45 @@ public class QuestController {
 		} else dB.echoDebug("...no conclusion commands found");
 		
 		//if we have introCommands, do them before we build all the listeners
-		if (introCommands != null) {
-//			introScriptEntries = scriptBuilder.buildScriptEntries(player, introCommands, scriptName);
-//			scriptBuilder.queueScriptEntries(player, introScriptEntries, QueueType.PLAYER);
-			//
-			// Queue the script in the player's queue.
-			//
-			scriptBuilder.queueScriptEntries (
-					player, 
-				scriptBuilder.buildScriptEntries (
-						player, 
-						npc, 
-						introCommands, 
-						scriptName, 
-						null), 
-				QueueType.PLAYER);
-
-			dB.echoDebug("...executing Introduction commands");
+		
+		//
+		// Get the quest from the player's quest journal.  If it does not exist,
+		// then we need to create the quest in the player's quest journal.
+		//
+		Quest	quest = qj.getQuests().get(questName);
+		if (quest == null) {
+			dB.echoDebug("Creating new quest: " + questName);
+			// TODO: get quest description.
+			quest = qj.addQuest(questName, scriptName, "");
 		}
+
+		//
+		// If the chapter does not exist, then create it and added it to the quest
+		// that it belongs to in an "uncompleted' status.  If there is an
+		// introduction script, then play that script as well.
+		//
+		QuestChapter chapter = quest.getChapter(currentChapter);
+		if (chapter == null) {
+			dB.echoDebug ("Creating new chapter: " + currentChapter);
+			chapter = quest.addChapter(currentChapter, false);
+			if (introCommands != null) {
+				//
+				// Queue the script in the player's queue.
+				//
+				scriptBuilder.queueScriptEntries (
+						player, 
+					scriptBuilder.buildScriptEntries (
+							player, 
+							npc, 
+							introCommands, 
+							scriptName, 
+							null), 
+					QueueType.PLAYER);
+
+				dB.echoDebug("...executing Introduction commands");
+			}
+		}
+		
 		
 		// time to build all the goals for the
 		// chapter. Still need some sort of 

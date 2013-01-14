@@ -29,6 +29,9 @@ public class QuestManager extends JavaPlugin {
 	QMCommandHandler commandHandler;
 	Citizens citizens;
 	
+	//
+	// This is a map that maps Players to their quest journals.
+	//
 	private	Map<Player,QuestJournal>	playerQuestJournals = new HashMap<Player,QuestJournal> ();
 	
 	/**

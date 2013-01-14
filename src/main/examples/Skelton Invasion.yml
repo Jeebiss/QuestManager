@@ -116,12 +116,12 @@ DropNote:
 #
 'Skeleton Invasion':
   Type: Quest
-  Description:  This quest is a small chain quest.  First, the player
+  Description:  "This quest is a small chain quest.  First, the player
                 must locate a skeleton encampment at a particular location.
                 Once found, they must return to the NPC that gave them the
                 quest.  Then, they must return to the location and kill
                 skeletons until they receive the item called 'Skeleton Battle
-                Plans.'
+                Plans.'"
 
   #
   # The Chapters tag identifies the list of all quest segments that make up
