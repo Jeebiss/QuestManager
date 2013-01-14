@@ -1,5 +1,7 @@
 package net.jeebiss.questmanager;
 
+import net.aufdemrand.denizen.events.ListenerCancelEvent;
+import net.aufdemrand.denizen.events.ListenerFinishEvent;
 import net.citizensnpcs.Citizens;
 import net.jeebiss.questmanager.commands.QMCommandHandler;
 import net.jeebiss.questmanager.denizen.commands.QuestCommand;
@@ -15,6 +17,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -24,7 +28,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class QuestManager extends JavaPlugin {
+public class QuestManager extends JavaPlugin implements Listener {
 	
 	QMCommandHandler commandHandler;
 	Citizens citizens;
@@ -33,7 +37,7 @@ public class QuestManager extends JavaPlugin {
 	// This is a map that maps Players to their quest journals.
 	//
 	private	Map<Player,QuestJournal>	playerQuestJournals = new HashMap<Player,QuestJournal> ();
-	
+
 	/**
 	 * Returns a player's quest journal.  If the player does not have a quest
 	 * journal, then this will create one for them and return that to the caller.
@@ -69,7 +73,11 @@ public class QuestManager extends JavaPlugin {
 		
 		//Register DSCRIPT REQUIREMENTS with Denizen
 		new QuestRequirement().activate().as("QUEST").withOptions("[STARTED|FAILED|FINISHED] [Quest(.Chapter)]", 2);
-		
+
+		//
+		// Register to receive events.
+		//
+		this.getServer().getPluginManager().registerEvents(this, this);
 	}
 	
 	@Override
@@ -130,4 +138,22 @@ public class QuestManager extends JavaPlugin {
         }
     }
 
+
+  /**
+   * This method will be called when a player finishes a goal.
+   * 
+   * @param finishedevent	The finished event.
+   */
+  @EventHandler
+  public void goalReached (ListenerFinishEvent finishedevent) {
+  }
+	
+  /**
+   * This method will be called if a listener event is cancelled.
+   * 
+   * @param cancelledEvent	The canceled event
+   */
+  @EventHandler
+  public void goalCancelled (ListenerCancelEvent cancelledEvent) {
+  }
 }
