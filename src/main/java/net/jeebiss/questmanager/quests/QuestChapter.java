@@ -68,9 +68,11 @@ public class QuestChapter {
 	public Status getStatus () {
 		return this.status;
 	}
-	
-	Goal.addPropertyChangeListener(new PropertyChangeListener() {
-	    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-	    }
-	});
+	public void addGoal (Goal goal){
+		goal.addPropertyChangeListener(new PropertyChangeListener() {
+		    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+		    }
+		});
+		this.goals.add(goal); 
+	}
 }
