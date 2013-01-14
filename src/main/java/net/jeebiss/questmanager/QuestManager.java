@@ -2,6 +2,7 @@ package net.jeebiss.questmanager;
 
 import net.aufdemrand.denizen.events.ListenerCancelEvent;
 import net.aufdemrand.denizen.events.ListenerFinishEvent;
+import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.citizensnpcs.Citizens;
 import net.jeebiss.questmanager.commands.QMCommandHandler;
 import net.jeebiss.questmanager.denizen.commands.QuestCommand;
@@ -145,7 +146,8 @@ public class QuestManager extends JavaPlugin implements Listener {
    * @param finishedevent	The finished event.
    */
   @EventHandler
-  public void goalReached (ListenerFinishEvent finishedevent) {
+  public void goalReached (ListenerFinishEvent finishedEvent) {
+  	dB.echoDebug ("goalReached (" + finishedEvent + ")");
   }
 	
   /**
@@ -155,5 +157,6 @@ public class QuestManager extends JavaPlugin implements Listener {
    */
   @EventHandler
   public void goalCancelled (ListenerCancelEvent cancelledEvent) {
+  	dB.echoDebug ("goalCancelled (" + cancelledEvent + ")");
   }
 }
