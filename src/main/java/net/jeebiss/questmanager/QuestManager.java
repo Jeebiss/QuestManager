@@ -68,7 +68,7 @@ public class QuestManager extends JavaPlugin {
 		new QuestVarCommand().activate().as("QUESTVAR").withOptions("[NAME:Quest Script Name] [VARIABLE:Variable Name] [VALUE:Value]", 3);
 		
 		//Register DSCRIPT REQUIREMENTS with Denizen
-		new QuestRequirement().activate().as("FLAGGED").withOptions("NO ARGS", 0);
+		new QuestRequirement().activate().as("QUEST").withOptions("[STARTED|FAILED|FINISHED] [Quest(.Chapter)]", 2);
 		
 	}
 	
