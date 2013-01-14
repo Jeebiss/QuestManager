@@ -1,5 +1,8 @@
 package net.jeebiss.questmanager.quests;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents one chapter in a quest.
  * 
@@ -12,6 +15,8 @@ public class QuestChapter {
 	
 	private	String	name;
 	private	Status	status;
+	
+	List<Goal> goals = new ArrayList<Goal> ();
 	
 
 	/**
