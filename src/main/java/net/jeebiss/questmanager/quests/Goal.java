@@ -7,7 +7,7 @@ public class Goal {
 
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	
-	public enum  Status { CANCELED, INPROGRESS, COMPLETED }
+	public enum  Status { INPROGRESS, COMPLETED, CANCELLED }
 	
 	Status status;
 	

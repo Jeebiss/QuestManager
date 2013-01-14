@@ -86,8 +86,20 @@ public class QuestChapter {
 	    	//
 	    	// Iterate over the goals to see if there's anything we need to do.
 	    	//
-	    	for (Goal g : goals) {
+	    	Goal.Status newStatus = (Goal.Status)propertyChangeEvent.getNewValue ();
+	    	
+	    	if (newStatus == Goal.Status.COMPLETED) {
+	    		int numInProgress = 0;
+	    		for (Goal g : goals) {
+		    		if (g.getStatus() == Goal.Status.INPROGRESS) {
+		    			numInProgress++;
+		    		 }
+		    	}
+	    		if (numInProgress == 1) {
+	    			setStatus(Status.FINISHED);
+	    		}
 	    	}
+	    	
 	    }
 		});
 	}
