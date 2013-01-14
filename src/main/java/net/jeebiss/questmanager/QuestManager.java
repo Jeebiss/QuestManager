@@ -66,7 +66,7 @@ public class QuestManager extends JavaPlugin implements Listener {
 		commandHandler = new QMCommandHandler(citizens);
 		
 		//Register DSCRIPT LISTENERs with Denizen
-		new TravelListenerType().activate().as("KILL").withClass(TravelListenerInstance.class);
+		new TravelListenerType().activate().as("TRAVEL").withClass(TravelListenerInstance.class);
 		
 		//Register DSCRIPT COMMANDS with Denizen
 		new QuestCommand().activate().as("QUEST").withOptions("To Be Determined", 1);
