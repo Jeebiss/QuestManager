@@ -10,6 +10,7 @@ import net.jeebiss.questmanager.denizen.commands.QuestVarCommand;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerInstance;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerType;
 import net.jeebiss.questmanager.denizen.requirements.QuestRequirement;
+import net.jeebiss.questmanager.quests.Goal;
 import net.jeebiss.questmanager.quests.QuestJournal;
 
 import org.bukkit.Bukkit;
@@ -38,7 +39,7 @@ public class QuestManager extends JavaPlugin implements Listener {
 	// This is a map that maps Players to their quest journals.
 	//
 	private	Map<Player,QuestJournal>	playerQuestJournals = new HashMap<Player,QuestJournal> ();
-
+	private Map<String,Goal> listnerIdToGoalMap = new HashMap<String,Goal> ();
 	/**
 	 * Returns a player's quest journal.  If the player does not have a quest
 	 * journal, then this will create one for them and return that to the caller.
@@ -139,7 +140,12 @@ public class QuestManager extends JavaPlugin implements Listener {
         }
     }
 
-
+    public void addGoal (String listenerId, Goal goal) {
+    	listnerIdToGoalMap.put(listenerId, goal);
+    }
+    
+    
+    
   /**
    * This method will be called when a player finishes a goal.
    * 
