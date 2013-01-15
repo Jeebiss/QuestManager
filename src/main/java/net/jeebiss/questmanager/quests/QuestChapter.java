@@ -2,6 +2,7 @@ package net.jeebiss.questmanager.quests;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,9 @@ import java.util.List;
  * @author dbixler
  */
 public class QuestChapter {
+	
+	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	
 	public enum Status {
 		STARTED, FINISHED, FAILED
 	}
@@ -57,6 +61,7 @@ public class QuestChapter {
 	 * @param status	The status of the quest chapter.
 	 */
 	public void setStatus (Status status) {
+		pcs.firePropertyChange("status", this.status, status);
 		this.status = status;
 	}
 	
@@ -67,6 +72,10 @@ public class QuestChapter {
 	 */
 	public Status getStatus () {
 		return this.status;
+	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		pcs.addPropertyChangeListener(listener);
 	}
 
 	public void addGoal (Goal goal){

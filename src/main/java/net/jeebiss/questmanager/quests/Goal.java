@@ -14,7 +14,7 @@ public class Goal {
 	public Goal() {
 		status = Status.INPROGRESS;
 	}
-	
+	 
 	public void setStatus (Status status) {
 		pcs.firePropertyChange("status", this.status, status);
 		this.status = status;

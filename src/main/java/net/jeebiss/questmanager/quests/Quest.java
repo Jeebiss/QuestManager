@@ -1,5 +1,7 @@
 package net.jeebiss.questmanager.quests;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +82,21 @@ public class Quest {
 	public QuestChapter addChapter (String chapterName, Status status) {
 		QuestChapter	chapter	= new QuestChapter (chapterName, status);
 		this.chapters.add(chapter);
+		
+		chapter.addPropertyChangeListener(new PropertyChangeListener() {
+			/**
+			 * This will be called when the chapter changes its status.
+			 * 
+			 * @param	propertyChangeEvent	The event.
+			 */
+	    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+	    	
+	    	/*
+	    	 * TODO:
+	    	 */
+	    	
+	    }
+		});
 		return chapter;
 	}
 	
