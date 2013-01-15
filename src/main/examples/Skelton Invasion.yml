@@ -270,7 +270,7 @@ DropNote:
       - TRAVEL LOCATION<NPC.LOC> RADIUS:3
 
       #
-      # This is an "Auto Chat" script that executes upConclusion of this chapter,
+      # This is an "Auto Chat" script that executes upon conclusion of this chapter,
       # in that the NPC talks to the player without the player having to interact with it.
       #
       Conclusion:
