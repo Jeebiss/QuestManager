@@ -142,6 +142,7 @@ public class QuestManager extends JavaPlugin implements Listener {
     }
 
     public void addGoal (String listenerId, Goal goal) {
+    	dB.echoDebug ("QuestManager:  adding goal with listener id of: " + listenerId);
     	listnerIdToGoalMap.put(listenerId, goal);
     }
     
