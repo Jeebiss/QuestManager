@@ -109,9 +109,8 @@ public class QuestController {
 				 * @param	propertyChangeEvent	The event.
 				 */
 		    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-		    	
 		    	QuestChapter.Status newStatus = (QuestChapter.Status)propertyChangeEvent.getNewValue ();
-		    	dB.echoDebug("...checking if status change effects chapter");
+		    	dB.echoDebug("...checking for conclusion...");
 		    	if (newStatus == QuestChapter.Status.FINISHED) {
 		    		if (conclusionCommands != null) {
 						//
