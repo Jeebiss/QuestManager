@@ -52,7 +52,7 @@ public class QuestController {
 		//
 		// get current chapter.
 		//
-		final String currentChapter = getChapter(scriptName);
+		final String currentChapter = getChapter(scriptName, questName);
 		if (currentChapter == null) {
 			dB.echoDebug("...could not find a valid chapter for the given quest.");
 			return;
@@ -155,9 +155,15 @@ public class QuestController {
 		
 	}
 	
-	public String getChapter(String scriptName) {
+	public String getChapter(String scriptName, String questName) {
 		//parse over chapters
+		QuestJournal journal = new QuestJournal();
 		for (String chapter : chapters) {
+			
+			if (journal.isQuestFinished(questName, chapter)) {
+				continue;
+			}
+			
 			//if there is no requirement list, rrturn the current chapter
 			if (!denizen.getScripts().contains(scriptName.toUpperCase() 
 					+ "." + chapter + ".REQUIREMENTS.LIST")) {

@@ -77,7 +77,7 @@ public class QuestJournal {
 	 * 
 	 * @return	True if the player has completed the quest, false otherwise.
 	 */
-	public boolean isQuestFinshed (String questName, String chapterName) {
+	public boolean isQuestFinished (String questName, String chapterName) {
 		if (this.quests.containsKey(questName)		&&
 				this.quests.get(questName).getChapter(chapterName) != null) {
 			return this.quests.get(questName).getChapter (chapterName).getStatus() == Status.FINISHED;
