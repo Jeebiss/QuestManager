@@ -7,7 +7,11 @@ import net.aufdemrand.denizen.scripts.ScriptBuilder;
 import net.aufdemrand.denizen.scripts.ScriptEntry;
 import net.aufdemrand.denizen.scripts.commands.CommandExecuter;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
+import net.aufdemrand.denizen.utilities.arguments.aH;
+import net.aufdemrand.denizen.utilities.arguments.aH.ArgumentType;
+import net.jeebiss.questmanager.QuestManager;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -17,10 +21,11 @@ import org.bukkit.entity.Player;
  * @author Jeebiss
  */
 public class GoalBuilder {
-	public GoalBuilder(Player player, List<String> commands) {
+	public GoalBuilder(Player player, List<String> commands, QuestChapter chapter) {
 		ScriptBuilder scriptBuilder = DenizenAPI.getCurrentInstance().getScriptEngine().getScriptBuilder();
 		CommandExecuter	executor = DenizenAPI.getCurrentInstance().getScriptEngine().getScriptExecuter();
-		String[] args;
+		String[] args = null;
+		QuestManager	qm = (QuestManager) Bukkit.getPluginManager().getPlugin ("Quest Manager");
 
 		//
 		// For each goal, build the proper listener.
@@ -36,6 +41,18 @@ public class GoalBuilder {
 			} catch (ScriptEntryCreationException e) {
 				e.printStackTrace();
 			}
+			
+			Goal newGoal = new Goal();
+			String listenerId = null;
+			for (String arg : args) {
+				if (aH.matchesValueArg("ID", arg, ArgumentType.String)) {
+					listenerId = arg;
+					break;
+				}
+			}
+			
+			qm.addGoal(listenerId, newGoal);
+			chapter.addGoal(newGoal);
 		}
 	}
 }

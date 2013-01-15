@@ -100,7 +100,7 @@ public class QuestController {
 		if (chapter == null) {
 			dB.echoDebug ("Creating new chapter: " + currentChapter);
 			chapter = quest.addChapter(currentChapter, Status.STARTED);
-			GoalBuilder gB = new GoalBuilder(player, goals);
+			GoalBuilder gB = new GoalBuilder(player, goals, chapter);
 			if (introCommands != null) {
 				//
 				// Queue the script in the player's queue.
