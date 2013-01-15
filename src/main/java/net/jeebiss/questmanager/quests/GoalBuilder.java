@@ -36,6 +36,7 @@ public class GoalBuilder {
 			//
 			Goal newGoal = new Goal();
 			String listenerId = null;
+			args = scriptBuilder.buildArgs(player, null, goal);
 			for (String arg : args) {
 				if (aH.matchesValueArg("ID", arg, ArgumentType.String)) {
 					listenerId = arg;
@@ -56,7 +57,6 @@ public class GoalBuilder {
 			// execute the script.
 			//
 			try {
-				args = scriptBuilder.buildArgs(player, null, goal);
 				executor.execute(new ScriptEntry("LISTEN", args, player));
 			} catch (ScriptEntryCreationException e) {
 				e.printStackTrace();
