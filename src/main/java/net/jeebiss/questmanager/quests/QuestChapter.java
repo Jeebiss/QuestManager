@@ -6,6 +6,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.aufdemrand.denizen.utilities.debugging.dB;
+
 /**
  * Represents one chapter in a quest.
  * 
@@ -96,7 +98,7 @@ public class QuestChapter {
 	    	// Iterate over the goals to see if there's anything we need to do.
 	    	//
 	    	Goal.Status newStatus = (Goal.Status)propertyChangeEvent.getNewValue ();
-	    	
+	    	dB.echoDebug("...checking if status change effects chapter");
 	    	if (newStatus == Goal.Status.COMPLETED) {
 	    		int numInProgress = 0;
 	    		for (Goal g : goals) {
@@ -105,11 +107,13 @@ public class QuestChapter {
 		    		 }
 		    	}
 	    		if (numInProgress == 1) {
+	    			dB.echoDebug("...last goal, setting chapter to finished");
 	    			setStatus(Status.FINISHED);
 	    		}
 	    		return;
 	    		
 	    	} else if (newStatus == Goal.Status.CANCELLED) {
+	    		dB.echoDebug("...canceled goal, setting chapter finished");
 	    		setStatus(Status.FINISHED);
 	    		return;
 	    	}

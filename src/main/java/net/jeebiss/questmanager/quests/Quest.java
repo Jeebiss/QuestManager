@@ -5,6 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.jeebiss.questmanager.quests.QuestChapter.Status;
 
 /**
@@ -94,7 +95,7 @@ public class Quest {
 	    	/*
 	    	 * TODO:
 	    	 */
-	    	
+	    	dB.echoDebug("...yo I head your quest changed status.");
 	    }
 		});
 		return chapter;
