@@ -3,6 +3,8 @@ Skeleton:
   Interact Scripts:
   - 10 Find the Skeleton Camp
   - 20 Find the Skeleton Camp Already Started
+  - 30 Return to Town
+  - 40 Return to Town Already Started
 
 #
 # This is the script that starts the user on the "Skeleton Invasion" quest.  The
@@ -28,6 +30,11 @@ Find the Skeleton Camp:
         #
         - QUEST START 'SCRIPT:Skeleton Invasion' 'NAME:Skeleton Encampment'
 
+#
+# This will get called if the player clicks on the NPC after they have
+# received the "Find the Camp" chapter of the quest, but not yet finished
+# it.
+#
 Find the Skeleton Camp Already Started:
   Type: Interact
   Requirements:
@@ -45,7 +52,8 @@ Find the Skeleton Camp Already Started:
 #
 # This is the part of the "Skeleton Invasion" quest that instructs the user
 # to return to the skeleton camp and kill skeletons until they find the battle
-# plans.
+# plans.  This script is only valid if the user has finished the "Find the Camp"
+# chapter of the quest and has NOT finished the "Return to Camp" chapter.
 #
 Return to Town:
   Type: Interact
@@ -64,6 +72,24 @@ Return to Town:
           this invasion are within the camp that you investigated.  We
           need you to return to that camp, find the battle plans, and
           return them to us quickly.'
+
+#
+# This is called if the player has started the "Return to Town" chapter
+# in the quest, but not completed it yet.
+#
+Return to Town Already Started:
+  Type: Interact
+  Requirements:
+    Mode: All
+    List:
+    - QUEST STARTED 'Skeleton Encampment.Return to Town'
+    - -QUEST FINISHED 'Skeleton Encampment.Return to Town'
+  Steps:
+    Default:
+      Click Trigger:
+        Script:
+        - CHAT "We desperately need those battle plans so that we
+          can defend against the onslaught.  Keep searching, please!"
 
 #
 # This is the script that will be used to assign the "Find the Instigator"
@@ -133,12 +159,12 @@ DropNote:
 #
 'Skeleton Invasion':
   Type: Quest
-  Description:  "This quest is a small chain quest.  First, the player
+  Description:  This quest is a small chain quest.  First, the player
                 must locate a skeleton encampment at a particular location.
                 Once found, they must return to the NPC that gave them the
                 quest.  Then, they must return to the location and kill
                 skeletons until they receive the item called 'Skeleton Battle
-                Plans.'"
+                Plans.'
 
   #
   # The Chapters tag identifies the list of all quest segments that make up
@@ -166,7 +192,8 @@ DropNote:
       # the goals, the "Conclusion" script will run.
       #
       Goals:
-      - TRAVEL LOCATION<NOTABLE.LOC:Skeleton Encampment> RADIUS:10
+      - KILL TYPE:ENTITY TARGET:ZOMBIE QTY:1 ID:KillZombieNow
+#      - TRAVEL LOCATION<NOTABLE.LOC:Skeleton Encampment> RADIUS:10
 
       #
       # Once all of the goals have been satisfied, this script will be
@@ -270,7 +297,7 @@ DropNote:
       - TRAVEL LOCATION<NPC.LOC> RADIUS:3
 
       #
-      # This is an "Auto Chat" script that executes upon conclusion of this chapter,
+      # This is an "Auto Chat" script that executes upon completion of this chapter,
       # in that the NPC talks to the player without the player having to interact with it.
       #
       Conclusion:
