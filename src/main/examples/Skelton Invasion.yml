@@ -163,7 +163,7 @@ DropNote:
       #
       # The "Goals" section creates listeners that must be satisfied
       # in order to "complete" the chapter.  Upon satisfying all of 
-      # the goals, the "On Completion" script will run.
+      # the goals, the "Conclusion" script will run.
       #
       Goals:
       - TRAVEL LOCATION<NOTABLE.LOC:Skeleton Encampment> RADIUS:10
@@ -172,7 +172,7 @@ DropNote:
       # Once all of the goals have been satisfied, this script will be
       # run.
       #
-      On Completion:
+      Conclusion:
       - JOURNAL ADD "You found the skeleton encampment.  You decide
         to return to <NPC.NAME> and let him know the news."
       - NARRATE "Good job!  You found the encampment.  Now return to
@@ -196,7 +196,7 @@ DropNote:
         Goals:
         - TRAVEL LOCATION<NPC.LOC> RADIUS:3
         
-      On Completion:
+      Conclusion:
       - JOURNAL ADD "You returned to <NPC.NAME> with news of the
         skeleton encampment, but other news has been received."
       - NARRATE "You've returned with news of the encampment, but
@@ -242,7 +242,7 @@ DropNote:
       #
       # Once the user picks up the battle plans, they're done with this chapter.
       #
-      On Completion:
+      Conclusion:
       - JOURNAL ADD "You found the battle plans!  You hustle off back
         to <NPC.NAME> to hand them over so that the invasion can be
         prevented."
@@ -270,10 +270,10 @@ DropNote:
       - TRAVEL LOCATION<NPC.LOC> RADIUS:3
 
       #
-      # This is an "Auto Chat" script that executes upon completion of this chapter,
+      # This is an "Auto Chat" script that executes upConclusion of this chapter,
       # in that the NPC talks to the player without the player having to interact with it.
       #
-      On Completion:
+      Conclusion:
       - JOURNAL ADD "You've returned the plans to <NPC.NAME> and in the process, saved
         hundreds of lives.  But you can't help but wonder, who could have been responsible
         responsible for orchestrating such a calamity."
@@ -336,7 +336,7 @@ DropNote:
       Goals:
       - COLLECT ITEM:'Misplaced Skeleton Commander Note' QTY:1
 
-      On Completion:
+      Conclusion:
       - JOURNAL ADD "You've found an interesting note just lying
         amongst the bed sheets.  However, it is in a language you
         do not understand.  You decide to return to <NPC.NAME> and
@@ -361,7 +361,7 @@ DropNote:
       Goals:
       - TRAVEL TYPE:TO_NPC TARGET:(NPCID) RADIUS:3
 
-      On Completion:
+      Conclusion:
       - JOURNAL ADD "You've returned the note to <NPC.NAME> who has recommended that you
         take the note to a local scribe to decipher what the note says."
       - NARRATE "You show the note to <NPC.NAME> who is unable to decipher its meaning.
@@ -385,7 +385,7 @@ DropNote:
       - TRAVEL LOCATION<SCRIBENPC.LOC> RADIUS:3
       - COLLECT ITEM:'Transcribed Skeleton Commander Note' QTY:1
 
-      On Completion:
+      Conclusion:
       - JOURNAL ADD "You've located a scribe that can hopefully
         decipher the note."
       - NARRATE "You've found someone that might be able to help.
@@ -422,7 +422,7 @@ DropNote:
       # just an example, right? Right.  It could just have easily be put into an
       # Click Trigger in a script.
       #
-      On Completion:
+      Conclusion:
       - JOURNAL ADD "You've returned the note to <NPC.NAME>
         which has revealed the perpetrator."
       - NARRATE "You've returned the transcribed note to <NPC.NAME>."
