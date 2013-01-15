@@ -32,6 +32,26 @@ public class GoalBuilder {
 		//
 		for (String goal : commands) {
 			//
+			// Create the new goal and then find the ID of the listener.
+			//
+			Goal newGoal = new Goal();
+			String listenerId = null;
+			for (String arg : args) {
+				if (aH.matchesValueArg("ID", arg, ArgumentType.String)) {
+					listenerId = arg;
+					break;
+				}
+			}
+			
+			//
+			// Add the goal to the chapter, and also add it to the QuestManager's
+			// map of listener IDs to goals.  That way the events fire as they
+			// should, in the correct order.
+			//
+			chapter.addGoal(newGoal);
+			qm.addGoal(listenerId, newGoal);
+
+			//
 			// Break the Goal into arguments for the LISTEN command scriptEntry and
 			// execute the script.
 			//
@@ -42,17 +62,6 @@ public class GoalBuilder {
 				e.printStackTrace();
 			}
 			
-			Goal newGoal = new Goal();
-			String listenerId = null;
-			for (String arg : args) {
-				if (aH.matchesValueArg("ID", arg, ArgumentType.String)) {
-					listenerId = arg;
-					break;
-				}
-			}
-			
-			qm.addGoal(listenerId, newGoal);
-			chapter.addGoal(newGoal);
 		}
 	}
 }
