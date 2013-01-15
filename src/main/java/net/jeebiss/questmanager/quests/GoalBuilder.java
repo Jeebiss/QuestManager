@@ -39,7 +39,7 @@ public class GoalBuilder {
 			args = scriptBuilder.buildArgs(player, null, goal);
 			for (String arg : args) {
 				if (aH.matchesValueArg("ID", arg, ArgumentType.String)) {
-					listenerId = arg;
+					listenerId = aH.getStringFrom(arg);
 					break;
 				}
 			}
