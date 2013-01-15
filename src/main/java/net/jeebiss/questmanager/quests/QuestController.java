@@ -1,5 +1,7 @@
 package net.jeebiss.questmanager.quests;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Set;
 
@@ -30,7 +32,7 @@ public class QuestController {
 	
 	String currentChapter = null;
 	
-	public QuestController(String scriptName, String questName, Player player, DenizenNPC npc) {
+	public QuestController(final String scriptName, String questName, final Player player, final DenizenNPC npc) {
 		dB.echoDebug("Creating a new controller for " + scriptName + " as " + questName);
 		
 		if (qm == null) {
@@ -100,6 +102,37 @@ public class QuestController {
 		if (chapter == null) {
 			dB.echoDebug ("Creating new chapter: " + currentChapter);
 			chapter = quest.addChapter(currentChapter, Status.STARTED);
+			chapter.addPropertyChangeListener(new PropertyChangeListener() {
+				/**
+				 * This will be called when the chapter changes its status.
+				 * 
+				 * @param	propertyChangeEvent	The event.
+				 */
+		    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+		    	
+		    	QuestChapter.Status newStatus = (QuestChapter.Status)propertyChangeEvent.getNewValue ();
+		    	dB.echoDebug("...checking if status change effects chapter");
+		    	if (newStatus == QuestChapter.Status.FINISHED) {
+		    		if (conclusionCommands != null) {
+						//
+						// Queue the script in the player's queue.
+						//
+						scriptBuilder.queueScriptEntries (
+								player, 
+							scriptBuilder.buildScriptEntries (
+									player, 
+									npc, 
+									conclusionCommands, 
+									scriptName, 
+									null), 
+							QueueType.PLAYER);
+
+						dB.echoDebug("...executing Conclusion commands");
+						
+					}
+		    	}
+		    }
+			});
 			GoalBuilder gB = new GoalBuilder(player, goals, chapter);
 			if (introCommands != null) {
 				//
