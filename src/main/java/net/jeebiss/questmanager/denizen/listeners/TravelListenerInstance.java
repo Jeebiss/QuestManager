@@ -3,6 +3,7 @@ package net.jeebiss.questmanager.denizen.listeners;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -37,7 +38,6 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 
 	@Override
 	public void onBuild(List<String> args) {
-		
 		for (String arg : args) {
 			if (aH.matchesLocation(arg)){
 				endPoint = aH.getLocationFrom(arg);
@@ -111,6 +111,13 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 		return "Failed to create detailed report";
 	}
 
+	/**
+	 * This method will be called every time a player moves in the game.  It's
+	 * used to determine if a player has satisfied a certain travel goal.
+	 * 
+	 * @param event	The player movement event.
+	 */
+  @EventHandler
 	public void walking(PlayerMoveEvent event) {
 		if (!(event.getPlayer() == player)) return;
 		

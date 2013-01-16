@@ -11,7 +11,6 @@ import net.jeebiss.questmanager.denizen.listeners.TravelListenerInstance;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerType;
 import net.jeebiss.questmanager.denizen.requirements.QuestRequirement;
 import net.jeebiss.questmanager.quests.Goal;
-import net.jeebiss.questmanager.quests.Goal.Status;
 import net.jeebiss.questmanager.quests.QuestJournal;
 
 import org.bukkit.Bukkit;
@@ -32,7 +31,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class QuestManager extends JavaPlugin implements Listener {
-	
 	QMCommandHandler commandHandler;
 	Citizens citizens;
 	
@@ -82,72 +80,77 @@ public class QuestManager extends JavaPlugin implements Listener {
 		//
 		this.getServer().getPluginManager().registerEvents(this, this);
 	}
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdName, String[] args) {
 		Citizens citizens = (Citizens) getServer().getPluginManager().getPlugin("Citizens");
 		return citizens.onCommand(sender, cmd, cmdName, args);
 	}
-	
+
 	@Override
 	public void onDisable() {
 		saveSaves();
 	}
 
-    // Initialize Bukkit File Configuration Fields
-    private FileConfiguration savesConfig = null;
-    private File savesConfigFile = null;
+	// Initialize Bukkit File Configuration Fields
+	private FileConfiguration savesConfig = null;
+	private File savesConfigFile = null;
 
-    /**
-     * Syncs the current copy in memory of 'saves' from the disk. Does not invoke
-     * a save first, so any changes that are in memory that have not yet been
-     * saved to disk may be lost.
-     *
-     */
-    public void reloadSaves() {
-        if (savesConfigFile == null) {
-            savesConfigFile = new File(getDataFolder(), "saves.yml");
-        }
-        savesConfig = YamlConfiguration.loadConfiguration(savesConfigFile);
-    }
+	/**
+	 * Syncs the current copy in memory of 'saves' from the disk. Does not invoke
+	 * a save first, so any changes that are in memory that have not yet been
+	 * saved to disk may be lost.
+	 *
+	 */
+	public void reloadSaves() {
+		if (savesConfigFile == null) {
+			savesConfigFile = new File(getDataFolder(), "saves.yml");
+		}
+		savesConfig = YamlConfiguration.loadConfiguration(savesConfigFile);
+	}
 
-    /**
-     * Retrieves a manageable keyed collection of the contents of the 'saves'
-     * in memory.
-     *
-     * @return the current saves
-     */
-    public FileConfiguration getSaves() {
-        if (savesConfig == null) {
-            reloadSaves();
-        }
-        return savesConfig;
-    }
+	/**
+	 * Retrieves a manageable keyed collection of the contents of the 'saves'
+	 * in memory.
+	 *
+	 * @return the current saves
+	 */
+	public FileConfiguration getSaves() {
+		if (savesConfig == null) {
+			reloadSaves();
+		}
+		return savesConfig;
+	}
 
-    /**
-     * Saves the copy of 'saves' in memory to the disk as 'saves.yml'. If any changes
-     * in the disk saves.yml have not been synced with the copy in memory with
-     * {@link #reloadSaves()}, they may be lost.
-     *
-     */
-    public void saveSaves() {
-        if (savesConfig == null || savesConfigFile == null) {
-            return;
-        }
-        try {
-            savesConfig.save(savesConfigFile);
-        } catch (IOException ex) {
-            Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save config to " + savesConfigFile, ex);
-        }
-    }
+	/**
+	 * Saves the copy of 'saves' in memory to the disk as 'saves.yml'. If any changes
+	 * in the disk saves.yml have not been synced with the copy in memory with
+	 * {@link #reloadSaves()}, they may be lost.
+	 *
+	 */
+	public void saveSaves() {
+		if (savesConfig == null || savesConfigFile == null) {
+			return;
+		}
+		try {
+			savesConfig.save(savesConfigFile);
+		} catch (IOException ex) {
+			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save config to " + savesConfigFile, ex);
+		}
+	}
 
-    public void addGoal (String listenerId, Goal goal) {
-    	dB.echoDebug ("QuestManager:  adding goal with listener id of: " + listenerId);
-    	listnerIdToGoalMap.put(listenerId, goal);
-    }
-    
-    
-    
+	/**
+	 * This method will add a goal to the goal listener map and use the listener
+	 * ID as the key in the map.
+	 * 
+	 * @param listenerId	The listener ID.
+	 * @param goal	The goal to be listened for.
+	 */
+	public void addGoal (String listenerId, Goal goal) {
+		dB.echoDebug ("QuestManager:  adding goal with listener id of: " + listenerId);
+		listnerIdToGoalMap.put(listenerId, goal);
+	}
+
   /**
    * This method will be called when a player finishes a goal.
    * 
