@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import net.aufdemrand.denizen.exceptions.RequirementCheckException;
 import net.aufdemrand.denizen.npc.DenizenNPC;
 import net.aufdemrand.denizen.scripts.requirements.AbstractRequirement;
+import net.aufdemrand.denizen.scripts.requirements.RequirementsContext;
 import net.aufdemrand.denizen.utilities.arguments.aH;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.jeebiss.questmanager.QuestManager;
@@ -18,8 +19,8 @@ import net.jeebiss.questmanager.quests.QuestChapter.Status;
 public class QuestRequirement extends AbstractRequirement{
 	private enum ScriptType { FINISHED, STARTED, FAILED }
 	@Override
-	public boolean check(Player player, DenizenNPC npc, String scriptName,
-			List<String> args) throws RequirementCheckException {
+	public boolean check(RequirementsContext context, List<String> args)
+			throws RequirementCheckException {
 
 		// Requirement will check if full Quest, or specific
 		// Quest Chapter is FINISHED, STARTED, or FAILED and
@@ -57,7 +58,7 @@ public class QuestRequirement extends AbstractRequirement{
 		//
 		// Fetch the player's Quest Journal.
 		//
-		QuestJournal	qj = QM.getQuestJournal(player);
+		QuestJournal qj = QM.getQuestJournal(context.getPlayer());
 		
 		//
 		// If the quest journal does not have the quest, then the quest is not
@@ -99,5 +100,4 @@ public class QuestRequirement extends AbstractRequirement{
 		
 		return false;
 	}
-
 }
