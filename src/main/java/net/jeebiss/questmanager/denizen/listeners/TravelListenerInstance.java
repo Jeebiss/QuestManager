@@ -15,22 +15,54 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerType.TravelType;
 
+/**
+ * This is a listener that listens for a player to travel.  There are different
+ * types of "traveling" this can entail:
+ * 
+ * <ol>
+ * <li>
+ * Distance
+ * <dd>Number of blocks to travel.</dd>
+ * </li>
+ * <li>
+ * Target
+ * <dd>A NPC to travel to.</dd>
+ * </li>
+ * <li>
+ * Location
+ * <dd>A location to travel to</dd>
+ * </li>
+ * </ol>
+ * 
+ * @author Jeebiss
+ */
 public class TravelListenerInstance extends AbstractListener implements Listener{
+	public	static	final	String	DISTANCE_ARG = "DISTANCE, D";
+	public	static	final	String	TYPE_ARG = "TYPE";
+	public	static	final	String	TARGET_ARG = "TARGET";
 	
-	NPC target;
-	
+	private	NPC target;
 	private Location endPoint;
-	
 	private Integer blocksWalked = 0;
 	private Integer distance = null;
+	private	TravelType type;
 	
-	TravelType TYPE;
-	
+	/**
+	 * This method is called when an instance of the travel listener is created.
+	 * This class will then register with the event handler so we know when the
+	 * player moves so that a determination of whether or not the player has
+	 * reached the goal can be determined.
+	 */
 	@Override
 	public void constructed() {
 		denizen.getServer().getPluginManager().registerEvents(this, denizen);
 	}
 
+	/**
+	 * This will be called when this travel listener is destroyed.  This allows
+	 * the class to unregister with the event handler so that no more events will
+	 * be received.
+	 */
 	@Override
 	public void deconstructed() {
 		PlayerMoveEvent.getHandlerList().unregister(this);
@@ -42,30 +74,27 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 			if (aH.matchesLocation(arg)){
 				endPoint = aH.getLocationFrom(arg);
 				dB.echoDebug("...ending location set");
-			}
-			
-			else if (aH.matchesValueArg("DISTANCE, D", arg, ArgumentType.Integer)) {
+			} else if (aH.matchesValueArg(DISTANCE_ARG, arg, ArgumentType.Integer)) {
 				distance = aH.getIntegerFrom(arg);
 				dB.echoDebug("...distance set to: " + distance);
-			}
-			
-			else if (aH.matchesValueArg("TYPE", arg, ArgumentType.Custom)) {
+			} else if (aH.matchesValueArg(TYPE_ARG, arg, ArgumentType.Custom)) {
 				try {
-					TYPE = TravelType.valueOf(aH.getStringFrom(arg));
+					type = TravelType.valueOf(aH.getStringFrom(arg));
 					dB.echoDebug("...set TYPE to: " + aH.getStringFrom(arg));
 				} catch (Exception e) {e.printStackTrace();}
-			}
-			
-			else if (aH.matchesValueArg("TARGET", arg, ArgumentType.LivingEntity)) {
+			} else if (aH.matchesValueArg(TARGET_ARG, arg, ArgumentType.LivingEntity)) {
 				if ((CitizensAPI.getNPCRegistry().getNPC(aH.getLivingEntityFrom(arg)) != null &&
 						CitizensAPI.getNPCRegistry().isNPC(aH.getLivingEntityFrom(arg)))){
 					target = CitizensAPI.getNPCRegistry().getNPC(aH.getLivingEntityFrom(arg));
+					dB.echoDebug("...NPC set to: " + target.getId());
 				}
-				dB.echoDebug("...NPC set to: " + target.getId());
 			}
 		}
 		
-		if (TYPE == null) {
+		//
+		// Check for mandatory arguments.
+		//
+		if (type == null) {
 			dB.echoError("Missing TYPE argument! Valid: DISTANCE, TOLOCATION, TONPC");
 			cancel();
 		}
@@ -85,7 +114,7 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 
 	@Override
 	public void onLoad() {
-		TYPE = TravelType.valueOf((String) get("Type"));
+		type = TravelType.valueOf((String) get("Type"));
 		distance = (Integer) get("Distance");
 		blocksWalked = (Integer) get("Blocks Walked");
 		endPoint = (Location) get("End Location");
@@ -93,7 +122,7 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 
 	@Override
 	public void onSave() {
-		store("Type", TYPE.name());
+		store("Type", type.name());
 		store("Distance", distance);
 		store("Blocks Walked", blocksWalked);
 		store("End Location", endPoint);
@@ -101,11 +130,11 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 
 	@Override
 	public String report() {
-		if (TYPE == TravelType.DISTANCE){
+		if (type == TravelType.DISTANCE){
 			return player.getName() + "has traveled " + blocksWalked + " blocks out of " + distance;
-		} else if (TYPE == TravelType.TOLOCATION) {
+		} else if (type == TravelType.TOLOCATION) {
 			return player.getName() + " is traveling to " + endPoint;
-		} else if (TYPE == TravelType.TONPC) {
+		} else if (type == TravelType.TONPC) {
 			return player.getName() + " is traveling to NPC " + target.getId();
 		}
 		return "Failed to create detailed report";
@@ -121,18 +150,18 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 	public void walking(PlayerMoveEvent event) {
 		if (!(event.getPlayer() == player)) return;
 		
-		if (TYPE == TravelType.DISTANCE){
+		if (type == TravelType.DISTANCE){
 			if (!event.getTo().getBlock().equals(event.getFrom().getBlock())) {
 				blocksWalked++;
 				dB.echoDebug("..player moved a block");
 				check();
 			}
-		} else if (TYPE == TravelType.TOLOCATION) {
+		} else if (type == TravelType.TOLOCATION) {
 			if (player.getLocation().distance(endPoint) <= 2) {
 				dB.echoDebug("...player reached location");
 				finish();
 			}
-		} else if (TYPE == TravelType.TONPC) {
+		} else if (type == TravelType.TONPC) {
 			if (player.getLocation().distance(target.getBukkitEntity().getLocation()) <= 2) {
 				dB.echoDebug("...player reached NPC");
 				finish();

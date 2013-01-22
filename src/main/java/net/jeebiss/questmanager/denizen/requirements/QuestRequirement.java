@@ -18,6 +18,12 @@ import net.jeebiss.questmanager.quests.QuestChapter.Status;
 
 public class QuestRequirement extends AbstractRequirement{
 	private enum ScriptType { FINISHED, STARTED, FAILED }
+	
+	@Override
+	public String getName () {
+		return "QuestRequirement";
+	}
+
 	@Override
 	public boolean check(RequirementsContext context, List<String> args)
 			throws RequirementCheckException {
@@ -65,6 +71,7 @@ public class QuestRequirement extends AbstractRequirement{
 		// started.
 		//
 		if (qj.hasQuest(questName) == false) {
+			dB.echoDebug("Player's quest journal does not include quest: " + questName);
 			return false;
 		}
 		
@@ -74,6 +81,7 @@ public class QuestRequirement extends AbstractRequirement{
 		// true if it's checked for being started, otherwise, this returns false.
 		//
 		if (chapterName == null) {
+			dB.echoDebug ("Chapter name is null,  Returning STARTED.");
 			return scriptType == ScriptType.STARTED;
 		}
 		
@@ -82,6 +90,7 @@ public class QuestRequirement extends AbstractRequirement{
 		//
 		QuestChapter	qc = qj.getQuests().get(questName).getChapter(chapterName);
 		if (qc == null) {
+			dB.echoDebug ("Quest chapter '" + chapterName + "' is null.");
 			return false;
 		}
 
@@ -96,6 +105,8 @@ public class QuestRequirement extends AbstractRequirement{
 			return qc.getStatus() == Status.FINISHED;
 		case FAILED:
 			return qc.getStatus () == Status.FAILED;
+		default:
+			dB.echoError("Invalid type: " + scriptType);
 		}
 		
 		return false;
