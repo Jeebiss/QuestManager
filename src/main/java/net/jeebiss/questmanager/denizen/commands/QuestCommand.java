@@ -20,32 +20,33 @@ public class QuestCommand extends AbstractCommand{
 	public void parseArgs(ScriptEntry scriptEntry)
 			throws InvalidArgumentsException {
 		String questName = null;
+		Player player = null;
+		DenizenNPC npc = null;
+
+		
 		for (String arg : scriptEntry.getArguments()) {
 			if (aH.matchesArg("START, FINISH, FAIL, CONTINUE",  arg)){
 				try {
-					scriptEntry.addObject("TYPE", QuestType.valueOf(aH.getStringFrom(arg)));
-					dB.echoDebug("...set TYPE to: " + aH.getStringFrom(arg));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+					QuestType type = QuestType.valueOf(aH.getStringFrom(arg));
+					scriptEntry.addObject("TYPE", type);
+					dB.echoDebug("...set TYPE to: " + type.name());
+				} catch (Exception e) {e.printStackTrace();}
 			} else if (aH.matchesScript (arg)) {
-				scriptEntry.addObject("scriptName", aH.getStringFrom(arg));
-				dB.echoDebug("...set SCRIPT to use '%s'", aH.getStringFrom(arg));
+					String scriptName = aH.getStringFrom(arg);
+					scriptEntry.addObject("scriptName", scriptName);
+					dB.echoDebug("...set SCRIPT to use '%s'", scriptName);
 			} else if (aH.matchesValueArg("NAME", arg, ArgumentType.String)) {
-				questName = aH.getStringFrom(arg);
-				scriptEntry.addObject("questName", questName);
-				dB.echoDebug("...set NAME to use '%s'", questName);
+					questName = aH.getStringFrom(arg);
+					scriptEntry.addObject("questName", questName);
+					dB.echoDebug("...set NAME to use '%s'", questName);
 			}
 			else {
 				dB.echoError("Invalid argument: " + arg);
 				throw new InvalidArgumentsException(Messages.ERROR_UNKNOWN_ARGUMENT, arg);
 			}
+
 		}
 
-		//
-		// If we didn't find a quest name, and there's a "STEP" script entry, then
-		// use that as the quest name.
-		//
 		if (questName == null && scriptEntry.getStep() != null) {
 			scriptEntry.addObject ("questName", scriptEntry.getStep ());
 		}
@@ -59,8 +60,8 @@ public class QuestCommand extends AbstractCommand{
 			dB.echoDebug("Starting new Quest.");
 			new QuestController((String) scriptEntry.getObject("scriptName"), 
 					(String) scriptEntry.getObject("questName"), 
-					(Player) scriptEntry.getObject("player"), 
-					(DenizenNPC) scriptEntry.getObject("npc"));
+					scriptEntry.getPlayer(),
+					scriptEntry.getNPC());
 			break;
 
 		case FINISH:
@@ -76,8 +77,8 @@ public class QuestCommand extends AbstractCommand{
 			dB.echoApproval("Continuing on to the next chapter in quest:  " + (String)scriptEntry.getObject ("questName"));
 			new QuestController((String) scriptEntry.getObject("scriptName"), 
 					(String) scriptEntry.getObject("questName"), 
-					(Player) scriptEntry.getObject("player"), 
-					(DenizenNPC) scriptEntry.getObject("npc"));
+					scriptEntry.getPlayer(),
+					scriptEntry.getNPC());
 			break;
 		}
 		
