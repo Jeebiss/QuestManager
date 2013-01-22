@@ -65,13 +65,13 @@ Return to Town:
     Default:
       Click Trigger:
         Script:
-        - CHAT 'Welcome back, <PLAYER.NAME>.  You've done a great
+        - CHAT "Welcome back, <PLAYER.NAME>.  You've done a great
           service, but we've received grave news.  Word was received
           from another of our spies that these skeletons are planning
           an invasion of the city.  Apparently, the battle plans of
           this invasion are within the camp that you investigated.  We
           need you to return to that camp, find the battle plans, and
-          return them to us quickly.'
+          return them to us quickly."
 
 #
 # This is called if the player has started the "Return to Town" chapter
