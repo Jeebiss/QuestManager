@@ -14,7 +14,7 @@ import net.aufdemrand.denizen.utilities.debugging.dB.Messages;
 import net.jeebiss.questmanager.quests.QuestController;
 
 public class QuestCommand extends AbstractCommand{
-	private enum QuestType { START, FINISH, FAIL }
+	private enum QuestType { START, FINISH, FAIL, CONTINUE}
 	private QuestType TYPE = null;
 	
 	private String scriptName = null;
@@ -28,7 +28,7 @@ public class QuestCommand extends AbstractCommand{
 	public void parseArgs(ScriptEntry scriptEntry)
 			throws InvalidArgumentsException {
 		for (String arg : scriptEntry.getArguments()) {
-			if (aH.matchesArg("START, FINISH, FAIL",  arg)){
+			if (aH.matchesArg("START, FINISH, FAIL, CONTINUE",  arg)){
 				try {
 					TYPE = QuestType.valueOf(aH.getStringFrom(arg));
 					dB.echoDebug("...set TYPE to: " + TYPE.name());
@@ -71,6 +71,13 @@ public class QuestCommand extends AbstractCommand{
 			break;
 
 		case FAIL:
+			break;
+		
+		//
+		// This should move to the next chapter in the quest.
+		//
+		case CONTINUE:
+			dB.echoApproval("Continuing on to the next chapter in quest: " + this.questName);
 			break;
 		}
 		
