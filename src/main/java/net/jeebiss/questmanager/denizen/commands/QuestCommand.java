@@ -48,12 +48,11 @@ public class QuestCommand extends AbstractCommand{
 
 		player = scriptEntry.getPlayer();
 		npc = scriptEntry.getNPC();
-		
-		scriptEntry.addObject("TYPE", type);
-		scriptEntry.addObject("scriptName", scriptName);
-		scriptEntry.addObject("questName", questName);
-		scriptEntry.addObject("player", player);
-		scriptEntry.addObject("npc", npc);
+		if (type != null) scriptEntry.addObject("TYPE", type);
+		if (scriptName != null) scriptEntry.addObject("scriptName", scriptName);
+		if (questName != null) scriptEntry.addObject("questName", questName);
+		if (player != null) scriptEntry.addObject("player", player);
+		if (npc != null) scriptEntry.addObject("npc", npc);
 		if (questName == null && scriptEntry.getStep() != null) {
 			scriptEntry.addObject ("questName", scriptEntry.getStep ());
 		}
