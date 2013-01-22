@@ -38,7 +38,8 @@ public class QuestManager extends JavaPlugin implements Listener {
 	// This is a map that maps Players to their quest journals.
 	//
 	private	Map<Player,QuestJournal>	playerQuestJournals = new HashMap<Player,QuestJournal> ();
-	private Map<String,Goal> listnerIdToGoalMap = new HashMap<String,Goal> ();
+	private Map<Player,Map<String,Goal>> playerGoalMap = new HashMap<Player,Map<String,Goal>> ();
+	
 	/**
 	 * Returns a player's quest journal.  If the player does not have a quest
 	 * journal, then this will create one for them and return that to the caller.
@@ -143,12 +144,19 @@ public class QuestManager extends JavaPlugin implements Listener {
 	 * This method will add a goal to the goal listener map and use the listener
 	 * ID as the key in the map.
 	 * 
+	 * @param player	The player the goal is for.
 	 * @param listenerId	The listener ID.
 	 * @param goal	The goal to be listened for.
 	 */
-	public void addGoal (String listenerId, Goal goal) {
+	public void addGoal (Player player, String listenerId, Goal goal) {
 		dB.echoDebug ("QuestManager:  adding goal with listener id of: " + listenerId);
-		listnerIdToGoalMap.put(listenerId, goal);
+		Map<String,Goal> playerGoals = this.playerGoalMap.get (player);
+		if (playerGoals == null) {
+			playerGoals = new HashMap<String,Goal> ();
+			this.playerGoalMap.put (player, playerGoals);
+		}
+		
+		playerGoals.put (listenerId, goal);
 	}
 
   /**
@@ -159,7 +167,8 @@ public class QuestManager extends JavaPlugin implements Listener {
   @EventHandler
   public void goalReached (ListenerFinishEvent finishedEvent) {
 	  String listenerID = finishedEvent.getId();
-	  Goal g = this.listnerIdToGoalMap.remove (listenerID);
+		Map<String,Goal> playerGoals = this.playerGoalMap.get (finishedEvent.getPlayer());
+	  Goal g = playerGoals.remove (listenerID);
 	  if (g != null) {
 		  g.setStatus(Goal.Status.COMPLETED);
 	  } else {
@@ -176,7 +185,8 @@ public class QuestManager extends JavaPlugin implements Listener {
   @EventHandler
   public void goalCancelled (ListenerCancelEvent cancelledEvent) {
 	  String listenerID = cancelledEvent.getId();
-	  Goal g = this.listnerIdToGoalMap.remove (listenerID);
+		Map<String,Goal> playerGoals = this.playerGoalMap.get (cancelledEvent.getPlayer());
+	  Goal g = playerGoals.remove (listenerID);
 	  if (g != null) {
 	  	g.setStatus(Goal.Status.CANCELLED);
 	  } else {

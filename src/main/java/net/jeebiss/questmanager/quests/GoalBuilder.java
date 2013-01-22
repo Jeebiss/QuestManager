@@ -50,7 +50,7 @@ public class GoalBuilder {
 			// should, in the correct order.
 			//
 			chapter.addGoal(newGoal);
-			qm.addGoal(listenerId, newGoal);
+			qm.addGoal(player, quest.getName() + chapter.getName() + listenerId, newGoal);
 
 			//
 			// Break the Goal into arguments for the LISTEN command scriptEntry and
