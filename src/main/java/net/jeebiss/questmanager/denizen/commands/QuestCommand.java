@@ -54,6 +54,9 @@ public class QuestCommand extends AbstractCommand{
 		scriptEntry.addObject("questName", questName);
 		scriptEntry.addObject("player", player);
 		scriptEntry.addObject("npc", npc);
+		if (questName == null && scriptEntry.getStep() != null) {
+			scriptEntry.addObject ("questName", scriptEntry.getStep ());
+		}
 	}
 
 	@Override
@@ -76,7 +79,7 @@ public class QuestCommand extends AbstractCommand{
 		// This should move to the next chapter in the quest.
 		//
 		case CONTINUE:
-			dB.echoApproval("Continuing on to the next chapter in quest:  " + (String)scriptEntry.getObject ("step"));
+			dB.echoApproval("Continuing on to the next chapter in quest:  " + (String)scriptEntry.getObject ("questName"));
 			break;
 		}
 		
