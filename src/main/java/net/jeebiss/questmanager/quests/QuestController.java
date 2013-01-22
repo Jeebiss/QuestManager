@@ -12,6 +12,9 @@ import net.aufdemrand.denizen.Denizen;
 import net.aufdemrand.denizen.npc.DenizenNPC;
 import net.aufdemrand.denizen.scripts.ScriptBuilder;
 import net.aufdemrand.denizen.scripts.ScriptEngine.QueueType;
+import net.aufdemrand.denizen.scripts.requirements.RequirementChecker;
+import net.aufdemrand.denizen.scripts.requirements.RequirementsContext;
+import net.aufdemrand.denizen.scripts.requirements.RequirementsMode;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.jeebiss.questmanager.QuestManager;
@@ -21,7 +24,7 @@ import net.jeebiss.questmanager.quests.QuestChapter.Status;
  * This class is created when the dScript parser encounters the "QUEST"
  * command.
  * 
- * @author Jeebis
+ * @author Jeebiss
  */
 public class QuestController {
 	Denizen denizen = (Denizen) Bukkit.getPluginManager().getPlugin("Denizen");
@@ -50,9 +53,14 @@ public class QuestController {
 		}
 		
 		//
+		// Fetch the player's quest journal.
+		//
+		QuestJournal qj = qm.getQuestJournal(player);
+		
+		//
 		// get current chapter.
 		//
-		final String currentChapter = getChapter(scriptName, questName);
+		final String currentChapter = getChapter(scriptName, questName, qj, player);
 		if (currentChapter == null) {
 			dB.echoDebug("...could not find a valid chapter for the given quest.");
 			return;
@@ -66,11 +74,6 @@ public class QuestController {
 			goals = denizen.getScripts().getStringList((scriptName + ".Chapters." + currentChapter + ".Goals").toUpperCase());
 			dB.echoDebug("...Goals: acquired.");
 		} else dB.echoDebug("...no goals commands found");
-
-		//
-		// Fetch the player's quest journal.
-		//
-		QuestJournal qj = qm.getQuestJournal(player);
 		
 		//
 		// Get the quest from the player's quest journal.  If it does not exist,
@@ -155,9 +158,9 @@ public class QuestController {
 		
 	}
 	
-	public String getChapter(String scriptName, String questName) {
+	public String getChapter(String scriptName, String questName, QuestJournal journal, Player player) {
 		//parse over chapters
-		QuestJournal journal = new QuestJournal();
+		
 		for (String chapter : chapters) {
 			
 			if (journal.isQuestFinished(questName, chapter)) {
@@ -179,13 +182,20 @@ public class QuestController {
 				dB.echoDebug("...chapter " + chapter + " chosen with no requirments");
 				return chapter;
 			}
-							
-			//TODO properly handle requirements!
-			Boolean requirementsMet = false;
-			if (requirementsMet == true) {
+
+			//
+			// Check if chapter passes listed requirements
+			//
+			if (denizen.getScriptEngine().getRequirementChecker().check(buildReqContext(scriptName, chapter, requirements, player))) {
 				return chapter;
-			}	
+			}
 		}
 		return null;
+	}
+	
+	public RequirementsContext buildReqContext (String scriptName, String chapterName, List<String> requirements, Player player) {
+		RequirementsMode mode = new RequirementsMode(denizen.getScripts().getString(scriptName.toUpperCase() 
+				+ "." + chapterName + ".REQUIREMENTS.MODE"));
+		return new RequirementsContext(mode, requirements, scriptName).attachPlayer(player);
 	}
 }
