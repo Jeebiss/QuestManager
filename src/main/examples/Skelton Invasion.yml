@@ -60,7 +60,8 @@ Return to Town:
   Requirements:
     MODE: ALL
     List:
-    - QUEST FINISHED 'Skeleton Encampment.Return to Town'
+    - QUEST FINISHED 'Skeleton Encampment.Find the Camp'
+    - -QUEST STARTED 'Skeleton Encampment.Return to Town'
   Steps:
     Default:
       Click Trigger:
