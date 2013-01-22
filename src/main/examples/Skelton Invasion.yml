@@ -206,6 +206,7 @@ DropNote:
         to return to <NPC.NAME> and let him know the news."
       - NARRATE "Good job!  You found the encampment.  Now return to
         <NPC.NAME> to report the news."
+      - QUEST CONTINUE
 
     #
     # This chapter becomes active when the user completes the "Find the
