@@ -1,5 +1,6 @@
 package net.jeebiss.questmanager.quests;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.aufdemrand.denizen.exceptions.ScriptEntryCreationException;
@@ -37,10 +38,14 @@ public class GoalBuilder {
 			Goal newGoal = new Goal();
 			String listenerId = null;
 			args = scriptBuilder.buildArgs(player, null, goal);
+			List<String>	argList = new ArrayList<String> ();
 			for (String arg : args) {
 				if (aH.matchesValueArg("ID", arg, ArgumentType.String)) {
-					listenerId = aH.getStringFrom(arg);
+					listenerId = quest.getName() + "." + chapter.getName() + "." + aH.getStringFrom(arg);
+					argList.add("ID:" + listenerId);
 					break;
+				} else {
+					argList.add(arg);
 				}
 			}
 			
@@ -50,14 +55,14 @@ public class GoalBuilder {
 			// should, in the correct order.
 			//
 			chapter.addGoal(newGoal);
-			qm.addGoal(player, quest.getName() + chapter.getName() + listenerId, newGoal);
+			qm.addGoal(player, listenerId, newGoal);
 
 			//
 			// Break the Goal into arguments for the LISTEN command scriptEntry and
 			// execute the script.
 			//
 			try {
-				executor.execute(new ScriptEntry("LISTEN", args, player));
+				executor.execute(new ScriptEntry("LISTEN", argList.toArray(new String[0]), player));
 			} catch (ScriptEntryCreationException e) {
 				e.printStackTrace();
 			}
