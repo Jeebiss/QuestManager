@@ -15,23 +15,22 @@ import net.jeebiss.questmanager.quests.QuestController;
 
 public class QuestCommand extends AbstractCommand{
 	private enum QuestType { START, FINISH, FAIL, CONTINUE}
-	private QuestType TYPE = null;
-	
-	private String scriptName = null;
-	private String questName = null;
-	
-	private Player player;
-	
-	private DenizenNPC npc;
 	
 	@Override
 	public void parseArgs(ScriptEntry scriptEntry)
 			throws InvalidArgumentsException {
+		QuestType type = null;
+		String scriptName = null;
+		String questName = null;
+		Player player;
+		DenizenNPC npc;
+
+		
 		for (String arg : scriptEntry.getArguments()) {
 			if (aH.matchesArg("START, FINISH, FAIL, CONTINUE",  arg)){
 				try {
-					TYPE = QuestType.valueOf(aH.getStringFrom(arg));
-					dB.echoDebug("...set TYPE to: " + TYPE.name());
+					type = QuestType.valueOf(aH.getStringFrom(arg));
+					dB.echoDebug("...set TYPE to: " + type.name());
 				} catch (Exception e) {e.printStackTrace();}
 			} else if (aH.matchesScript (arg)) {
 					scriptName = aH.getStringFrom(arg);
@@ -50,7 +49,7 @@ public class QuestCommand extends AbstractCommand{
 		player = scriptEntry.getPlayer();
 		npc = scriptEntry.getNPC();
 		
-		scriptEntry.addObject("TYPE", TYPE);
+		scriptEntry.addObject("TYPE", type);
 		scriptEntry.addObject("scriptName", scriptName);
 		scriptEntry.addObject("questName", questName);
 		scriptEntry.addObject("player", player);
@@ -77,7 +76,7 @@ public class QuestCommand extends AbstractCommand{
 		// This should move to the next chapter in the quest.
 		//
 		case CONTINUE:
-			dB.echoApproval("Continuing on to the next chapter in quest: " + this.questName);
+			dB.echoApproval("Continuing on to the next chapter in quest");
 			break;
 		}
 		
