@@ -192,7 +192,8 @@ DropNote:
       # the goals, the "Conclusion" script will run.
       #
       Goals:
-      - KILL TYPE:ENTITY TARGET:ZOMBIE QTY:1 ID:KillZombieNow
+      - TRAVEL TYPE:TOLOCATION LOCATION:-151,69,579,world ID:SomeName
+#      - KILL TYPE:ENTITY TARGET:ZOMBIE QTY:1 ID:KillZombieNow
 #      - TRAVEL LOCATION<NOTABLE.LOC:Skeleton Encampment> RADIUS:10
 
       #
