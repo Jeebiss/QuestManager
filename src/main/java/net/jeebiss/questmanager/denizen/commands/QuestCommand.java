@@ -66,7 +66,9 @@ public class QuestCommand extends AbstractCommand{
 		case START:
 			dB.echoDebug("Starting new Quest.");
 			new QuestController((String) scriptEntry.getObject("scriptName"), 
-					(String) scriptEntry.getObject("questName"), (Player) scriptEntry.getObject("player"), (DenizenNPC) scriptEntry.getObject("npc"));
+					(String) scriptEntry.getObject("questName"), 
+					(Player) scriptEntry.getObject("player"), 
+					(DenizenNPC) scriptEntry.getObject("npc"));
 			break;
 
 		case FINISH:
@@ -80,6 +82,10 @@ public class QuestCommand extends AbstractCommand{
 		//
 		case CONTINUE:
 			dB.echoApproval("Continuing on to the next chapter in quest:  " + (String)scriptEntry.getObject ("questName"));
+			new QuestController((String) scriptEntry.getObject("scriptName"), 
+					(String) scriptEntry.getObject("questName"), 
+					(Player) scriptEntry.getObject("player"), 
+					(DenizenNPC) scriptEntry.getObject("npc"));
 			break;
 		}
 		
