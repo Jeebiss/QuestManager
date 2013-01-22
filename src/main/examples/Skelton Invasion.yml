@@ -177,6 +177,12 @@ DropNote:
     # certain location in the world.
     #
     'Find the Camp':
+      Requirements:
+        Mode: All
+        List:
+        - -QUEST STARTED 'Find the Camp'
+        - -QUEST FINISHED 'Find the Camp'
+        
       #
       # The "Introduction" section of the quest is a script that gets
       # run when the chapter starts.
@@ -218,6 +224,7 @@ DropNote:
         Mode: All
         List:
         - QUEST FINISHED 'Find the Camp'
+        - -QUEST STARTED 'Return to Town'
 
         #
         # The goal of this chapter is that the player must return to the
