@@ -19,40 +19,33 @@ public class QuestCommand extends AbstractCommand{
 	@Override
 	public void parseArgs(ScriptEntry scriptEntry)
 			throws InvalidArgumentsException {
-		QuestType type = null;
-		String scriptName = null;
 		String questName = null;
-		Player player;
-		DenizenNPC npc;
-
-		
 		for (String arg : scriptEntry.getArguments()) {
 			if (aH.matchesArg("START, FINISH, FAIL, CONTINUE",  arg)){
 				try {
-					type = QuestType.valueOf(aH.getStringFrom(arg));
-					dB.echoDebug("...set TYPE to: " + type.name());
-				} catch (Exception e) {e.printStackTrace();}
+					scriptEntry.addObject("TYPE", QuestType.valueOf(aH.getStringFrom(arg)));
+					dB.echoDebug("...set TYPE to: " + aH.getStringFrom(arg));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			} else if (aH.matchesScript (arg)) {
-					scriptName = aH.getStringFrom(arg);
-					dB.echoDebug("...set SCRIPT to use '%s'", scriptName);
+				scriptEntry.addObject("scriptName", aH.getStringFrom(arg));
+				dB.echoDebug("...set SCRIPT to use '%s'", aH.getStringFrom(arg));
 			} else if (aH.matchesValueArg("NAME", arg, ArgumentType.String)) {
-					questName = aH.getStringFrom(arg);
-					dB.echoDebug("...set NAME to use '%s'", questName);
+				questName = aH.getStringFrom(arg);
+				scriptEntry.addObject("questName", questName);
+				dB.echoDebug("...set NAME to use '%s'", questName);
 			}
 			else {
 				dB.echoError("Invalid argument: " + arg);
 				throw new InvalidArgumentsException(Messages.ERROR_UNKNOWN_ARGUMENT, arg);
 			}
-
 		}
 
-		player = scriptEntry.getPlayer();
-		npc = scriptEntry.getNPC();
-		if (type != null) scriptEntry.addObject("TYPE", type);
-		if (scriptName != null) scriptEntry.addObject("scriptName", scriptName);
-		if (questName != null) scriptEntry.addObject("questName", questName);
-		if (player != null) scriptEntry.addObject("player", player);
-		if (npc != null) scriptEntry.addObject("npc", npc);
+		//
+		// If we didn't find a quest name, and there's a "STEP" script entry, then
+		// use that as the quest name.
+		//
 		if (questName == null && scriptEntry.getStep() != null) {
 			scriptEntry.addObject ("questName", scriptEntry.getStep ());
 		}
