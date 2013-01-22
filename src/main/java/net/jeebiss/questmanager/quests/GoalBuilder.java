@@ -21,7 +21,7 @@ import org.bukkit.entity.Player;
  * @author Jeebiss
  */
 public class GoalBuilder {
-	public GoalBuilder(Player player, List<String> commands, QuestChapter chapter) {
+	public GoalBuilder(Player player, List<String> commands, Quest quest, QuestChapter chapter) {
 		ScriptBuilder scriptBuilder = DenizenAPI.getCurrentInstance().getScriptEngine().getScriptBuilder();
 		CommandExecuter	executor = DenizenAPI.getCurrentInstance().getScriptEngine().getScriptExecuter();
 		String[] args = null;

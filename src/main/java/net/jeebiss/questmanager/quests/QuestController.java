@@ -133,7 +133,7 @@ public class QuestController {
 			//
 			// Build the goals, and if there's an introduction script, play it.
 			//
-			new GoalBuilder(player, goals, chapter);
+			new GoalBuilder(player, goals, quest, chapter);
 
 			//
 			// Since this is a new quest, does this chapter have an intorduction?  If
