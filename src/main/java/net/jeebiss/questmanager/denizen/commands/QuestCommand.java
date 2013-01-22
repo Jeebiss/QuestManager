@@ -20,8 +20,6 @@ public class QuestCommand extends AbstractCommand{
 	public void parseArgs(ScriptEntry scriptEntry)
 			throws InvalidArgumentsException {
 		String questName = null;
-		Player player = null;
-		DenizenNPC npc = null;
 
 		
 		for (String arg : scriptEntry.getArguments()) {
@@ -75,7 +73,7 @@ public class QuestCommand extends AbstractCommand{
 		//
 		case CONTINUE:
 			dB.echoApproval("Continuing on to the next chapter in quest:  " + (String)scriptEntry.getObject ("questName"));
-			new QuestController((String) scriptEntry.getObject("scriptName"), 
+			new QuestController(scriptEntry.getScript(),
 					(String) scriptEntry.getObject("questName"), 
 					scriptEntry.getPlayer(),
 					scriptEntry.getNPC());
