@@ -187,6 +187,7 @@ public class QuestController {
 			// Check if chapter passes listed requirements
 			//
 			RequirementsContext	context = buildReqContext(scriptName, chapter, requirements, player);
+			context.addObject("questName", questName);
 			if (context == null || denizen.getScriptEngine().getRequirementChecker().check(context)) {
 				return chapter;
 			}

@@ -56,7 +56,10 @@ public class QuestRequirement extends AbstractRequirement{
 					questName = path[0];
 					chapterName = path[1];
 				} else {
-					questName = arg;
+					if (context.hasObject("questName")) {
+						questName = (String)context.getObject("questName");
+					}
+					chapterName = arg;
 				}
 			}
 		}
