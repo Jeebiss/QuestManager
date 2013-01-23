@@ -167,7 +167,7 @@ public class QuestController {
 			}
 			
 			//if there is no requirement list, rrturn the current chapter
-			String scriptKey = (scriptName + "." + chapter + ".REQUIREMENTS.LIST").toUpperCase();
+			String scriptKey = (scriptName + ".Chapters." + chapter + ".REQUIREMENTS.LIST").toUpperCase();
 			if (!denizen.getScripts().contains(scriptKey)) {
 				dB.echoDebug(scriptKey + " not found.");
 				return chapter;
