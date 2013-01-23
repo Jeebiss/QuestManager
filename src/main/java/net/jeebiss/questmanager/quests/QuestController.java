@@ -167,18 +167,18 @@ public class QuestController {
 			}
 			
 			//if there is no requirement list, rrturn the current chapter
-			if (!denizen.getScripts().contains(scriptName.toUpperCase() 
-					+ "." + chapter + ".REQUIREMENTS.LIST")) {
-				dB.echoDebug("...chapter " + chapter + " chosen with no requirments");
+			String scriptKey = (scriptName + "." + chapter + ".REQUIREMENTS.LIST").toUpperCase();
+			if (!denizen.getScripts().contains(scriptKey)) {
+				dB.echoDebug(scriptKey + " not found.");
 				return chapter;
 			}
 			
 			//if there is a List: node, get it.
-			requirements = denizen.getScripts().getStringList(scriptName.toUpperCase() + "." + chapter + ".REQUIREMENTS.LIST");
+			requirements = denizen.getScripts().getStringList(scriptKey);
 			
 			//If the list is empty, return chapter
 			if (requirements.isEmpty() || requirements == null ) {
-				dB.echoDebug("...chapter " + chapter + " chosen with no requirments");
+				dB.echoDebug(scriptKey + " had no requirements.");
 				return chapter;
 			}
 
