@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import net.aufdemrand.denizen.Denizen;
@@ -197,9 +198,11 @@ public class QuestController {
 		String scriptKey = (scriptName + ".Chapters." + chapterName + ".REQUIREMENTS.MODE").toUpperCase();
 		dB.echoDebug("Checking for scriptKey = " + scriptKey);
 		if (denizen.getScripts ().contains(scriptKey)) {
+			dB.echoDebug (ChatColor.GREEN + "  Found.");
 			RequirementsMode mode = new RequirementsMode (denizen.getScripts().getString(scriptKey));
 			return new RequirementsContext(mode, requirements, scriptName).attachPlayer(player);
 		}
+		dB.echoDebug (ChatColor.RED + "  Not found.");
 		return new RequirementsContext (new RequirementsMode (RequirementsMode.Mode.ALL), requirements, scriptName).attachPlayer(player);
 	}
 }
