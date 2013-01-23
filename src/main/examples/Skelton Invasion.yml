@@ -226,12 +226,12 @@ DropNote:
         - QUEST FINISHED 'Find the Camp'
         - -QUEST STARTED 'Return to Town'
 
-        #
-        # The goal of this chapter is that the player must return to the
-        # NPC.
-        #
-        Goals:
-        - TRAVEL LOCATION<NPC.LOC> RADIUS:3
+      #
+      # The goal of this chapter is that the player must return to the
+      # NPC.
+      #
+      Goals:
+      - TRAVEL LOCATION<NPC.LOC> RADIUS:3
         
       Conclusion:
       - JOURNAL ADD "You returned to <NPC.NAME> with news of the
