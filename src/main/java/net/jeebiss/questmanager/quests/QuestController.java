@@ -193,8 +193,8 @@ public class QuestController {
 	}
 	
 	public RequirementsContext buildReqContext (String scriptName, String chapterName, List<String> requirements, Player player) {
-		RequirementsMode mode = new RequirementsMode(denizen.getScripts().getString(scriptName.toUpperCase() 
-				+ "." + chapterName + ".REQUIREMENTS.MODE"));
+		RequirementsMode mode = new RequirementsMode((denizen.getScripts().getString(scriptName
+				+ ".Chapters." + chapterName + ".REQUIREMENTS.MODE").toUpperCase()));
 		return new RequirementsContext(mode, requirements, scriptName).attachPlayer(player);
 	}
 }
