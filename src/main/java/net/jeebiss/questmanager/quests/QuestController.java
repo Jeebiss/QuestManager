@@ -185,7 +185,8 @@ public class QuestController {
 			//
 			// Check if chapter passes listed requirements
 			//
-			if (denizen.getScriptEngine().getRequirementChecker().check(buildReqContext(scriptName, chapter, requirements, player))) {
+			RequirementsContext	context = buildReqContext(scriptName, chapter, requirements, player);
+			if (context == null || denizen.getScriptEngine().getRequirementChecker().check(context)) {
 				return chapter;
 			}
 		}
@@ -193,8 +194,12 @@ public class QuestController {
 	}
 	
 	public RequirementsContext buildReqContext (String scriptName, String chapterName, List<String> requirements, Player player) {
-		RequirementsMode mode = new RequirementsMode((denizen.getScripts().getString(scriptName
-				+ ".Chapters." + chapterName + ".REQUIREMENTS.MODE").toUpperCase()));
-		return new RequirementsContext(mode, requirements, scriptName).attachPlayer(player);
+		String scriptKey = (scriptName + ".Chapters." + chapterName + ".REQUIREMENTS.MODE").toUpperCase();
+		dB.echoDebug("Checking for scriptKey = " + scriptKey);
+		if (denizen.getScripts ().contains(scriptKey)) {
+			RequirementsMode mode = new RequirementsMode (denizen.getScripts().getString(scriptKey));
+			return new RequirementsContext(mode, requirements, scriptName).attachPlayer(player);
+		}
+		return new RequirementsContext (new RequirementsMode (RequirementsMode.Mode.ALL), requirements, scriptName).attachPlayer(player);
 	}
 }
