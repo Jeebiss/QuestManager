@@ -34,7 +34,10 @@ public class QuestJournal {
 	 * @return	True if the quest journal contains the quest, false otherwise.
 	 */
 	public boolean hasQuest (String questName) {
-		return this.quests.containsKey(questName);
+		if (questName == null) {
+			return false;
+		}
+		return this.quests.containsKey(questName.toUpperCase());
 	}
 	
 	/**
@@ -46,8 +49,8 @@ public class QuestJournal {
 	 * @return	The newly created quest object.
 	 */
 	public Quest addQuest (String questName, String questScriptName, String questDescription) {
-		Quest	quest = new Quest (questName, questScriptName, questDescription);
-		this.quests.put (questName, quest);
+		Quest	quest = new Quest (questName.toUpperCase(), questScriptName, questDescription);
+		this.quests.put (questName.toUpperCase(), quest);
 		return quest;
 	}
 	
@@ -62,8 +65,12 @@ public class QuestJournal {
 	 * @return	True if the quest and quest chapter have been started.
 	 */
 	public boolean isQuestStarted (String questName, String chapterName) {
-		if (this.quests.containsKey(questName)	&&
-				 this.quests.get(questName).getChapter(chapterName) != null) {
+		if (questName == null || chapterName == null) {
+			return false;
+		}
+		
+		if (this.quests.containsKey(questName.toUpperCase())	&&
+				 this.quests.get(questName.toUpperCase()).getChapter(chapterName.toUpperCase()) != null) {
 			return true;
 		}
 		return false;
@@ -78,9 +85,13 @@ public class QuestJournal {
 	 * @return	True if the player has completed the quest, false otherwise.
 	 */
 	public boolean isQuestFinished (String questName, String chapterName) {
-		if (this.quests.containsKey(questName)		&&
-				this.quests.get(questName).getChapter(chapterName) != null) {
-			return this.quests.get(questName).getChapter (chapterName).getStatus() == Status.FINISHED;
+		if (questName == null || chapterName == null) {
+			return false;
+		}
+		
+		if (this.quests.containsKey(questName.toUpperCase())		&&
+				this.quests.get(questName.toUpperCase()).getChapter(chapterName.toUpperCase()) != null) {
+			return this.quests.get(questName.toUpperCase()).getChapter (chapterName.toUpperCase()).getStatus() == Status.FINISHED;
 		}
 		return false;
 	}

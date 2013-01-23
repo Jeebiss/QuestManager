@@ -91,7 +91,7 @@ public class QuestRequirement extends AbstractRequirement{
 		//
 		// If the chapter does not exist, then the quest isn't started.
 		//
-		QuestChapter	qc = qj.getQuests().get(questName).getChapter(chapterName);
+		QuestChapter	qc = qj.getQuests().get(questName.toUpperCase()).getChapter(chapterName.toUpperCase());
 		if (qc == null) {
 			dB.echoDebug ("Quest chapter '" + chapterName + "' is null.");
 			return false;
