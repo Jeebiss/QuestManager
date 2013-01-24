@@ -161,7 +161,19 @@ DropNote:
   - FORGE ITEM:ITEMSTACK.misplacednote DISPLAYNAME:'Misplaced Skeleton Commander Note' 
   - DROP ITEM:ITEMSTACK.misplacednote LOCATION:<ANCHOR:Tavern Bedroom Bed>
   - NARRATE "You notice a strange note laying on the bed."
-
+  
+#
+# This script defines the Skeleton Battle Plans
+# as a PAPER item, with the display name
+# "Skeleton Battle Plans"
+#
+'Skeleton Battle Plans':
+  Type: Item
+  Item: PAPER
+  Name: Skeleton Battle Plans
+  Enchantments:
+  Lore:
+  
 #
 # This is the "Skeleton Invasion" quest.  Because this quest is very specific,
 # most of the scripting is done within the quest script itself, instead of in the
@@ -276,16 +288,18 @@ DropNote:
       # be completed.
       #
       Introduction:
-      - NEW ITEMSTACK ITEM:WRITTEN_BOOK QTY:1 NAME:battleplans
-      - ENGRAVE NAME:'Skeleton Battle Plans'
-      - BOOK SCRIPT:BattlePlans ITEM:ITEMSTACK.battleplans
+      # Create new item from 'Skeleton Battle Plans' item script
+      - NEW ITEMSTACK SCRIPT:'Skeleton Battle Plans'
+      # Bind the item to the player so it cannot be dropped
+      - ENGRAVE ITEM:ITEMSTACK.BattlePlans PLAYER:<PLAYER.NAME>
+      # Specify how the item is dropped NEEDS TO BE FINALIZED. (Use script type?)
       - ITEMDROP ITEM:ITEMSTACK.battleplans LOCATION:<NOTABLE.LOC:Skeleton Encampment> RADIUS:10 DROPSFROM:ENTITYID DROPRATE:100
       
       #
       # The goal is to collect the battle plans.
       #
       Goals:
-      - COLLECT ITEM:PAPER NAME:'Skeleton Battle Plans' QTY:1
+      - ITEM TYPE:COLLECT SCRIPT: QTY:1
 
       #
       # Once the user picks up the battle plans, they're done with this chapter.
