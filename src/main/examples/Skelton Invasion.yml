@@ -73,6 +73,15 @@ Return to Town:
           this invasion are within the camp that you investigated.  We
           need you to return to that camp, find the battle plans, and
           return them to us quickly."
+          #
+          # This QUEST CONTINUE command needs to get
+          # the scriptName some how, otherwise I dont
+          # think it will work. Should is be a
+          # required argument of the command.
+          #
+          # Continue on to the chapter 'Steal the Plans'
+          #
+        - QUEST CONTINUE NAME:Skeleton Encampment
 
 #
 # This is called if the player has started the "Return to Town" chapter
@@ -199,7 +208,7 @@ DropNote:
       # the goals, the "Conclusion" script will run.
       #
       Goals:
-      - TRAVEL TYPE:TOLOCATION LOCATION:-151,69,579,world ID:SomeName
+      - TRAVEL TYPE:TOLOCATION LOCATION:-151,69,579,world
 #      - KILL TYPE:ENTITY TARGET:ZOMBIE QTY:1 ID:KillZombieNow
 #      - TRAVEL LOCATION<NOTABLE.LOC:Skeleton Encampment> RADIUS:10
 
@@ -209,7 +218,7 @@ DropNote:
       #
       Conclusion:
       - JOURNAL ADD "You found the skeleton encampment.  You decide
-        to return to <NPC.NAME> and let him know the news."
+        to return to the head warrior and let him know the news."
       - NARRATE "Good job!  You found the encampment.  Now return to
         <NPC.NAME> to report the news."
       - QUEST CONTINUE
@@ -231,7 +240,8 @@ DropNote:
       # NPC.
       #
       Goals:
-      - TRAVEL LOCATION<NPC.LOC> RADIUS:3
+      # May need to adjust how it finds the NPC from TARGET
+      - TRAVEL TYPE:TONPC 'TARGET:head warrior' RADIUS:3
         
       Conclusion:
       - JOURNAL ADD "You returned to <NPC.NAME> with news of the
@@ -254,6 +264,7 @@ DropNote:
         Mode: ALL
         List:
         - QUEST FINISHED 'Return to Town'
+        - -QUEST STARTED 'Steal the Plans'
 
       #
       # This chapter requires a custom item called "Skeleton Battle Plans."  So

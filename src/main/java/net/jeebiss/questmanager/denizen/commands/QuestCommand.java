@@ -73,7 +73,7 @@ public class QuestCommand extends AbstractCommand{
 		//
 		case CONTINUE:
 			dB.echoApproval("Continuing on to the next chapter in quest:  " + (String)scriptEntry.getObject ("questName"));
-			new QuestController(scriptEntry.getScript(),
+			new QuestController(scriptEntry.getScript(), // <--- This getScript() doesnt account for the command outside the quest
 					(String) scriptEntry.getObject("questName"), 
 					scriptEntry.getPlayer(),
 					scriptEntry.getNPC());

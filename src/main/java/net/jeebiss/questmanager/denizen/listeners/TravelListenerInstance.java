@@ -40,11 +40,13 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 	public	static	final	String	DISTANCE_ARG = "DISTANCE, D";
 	public	static	final	String	TYPE_ARG = "TYPE";
 	public	static	final	String	TARGET_ARG = "TARGET";
+	public	static	final	String	RADIUS_ARG = "RADIUS, R";
 	
 	private	NPC target;
 	private Location endPoint;
 	private Integer blocksWalked = 0;
 	private Integer distance = null;
+	private Integer radius = 2;
 	private	TravelType type;
 	
 	/**
@@ -77,6 +79,9 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 			} else if (aH.matchesValueArg(DISTANCE_ARG, arg, ArgumentType.Integer)) {
 				distance = aH.getIntegerFrom(arg);
 				dB.echoDebug("...distance set to: " + distance);
+			} else if (aH.matchesValueArg(RADIUS_ARG, arg, ArgumentType.Integer)) {
+				radius = aH.getIntegerFrom(arg);
+				dB.echoDebug("...radius set to: " + radius);
 			} else if (aH.matchesValueArg(TYPE_ARG, arg, ArgumentType.Custom)) {
 				try {
 					type = TravelType.valueOf(aH.getStringFrom(arg));
@@ -124,6 +129,7 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 	public void onSave() {
 		store("Type", type.name());
 		store("Distance", distance);
+		store("Radius", radius);
 		store("Blocks Walked", blocksWalked);
 		store("End Location", endPoint);
 	}
@@ -157,12 +163,12 @@ public class TravelListenerInstance extends AbstractListener implements Listener
 				check();
 			}
 		} else if (type == TravelType.TOLOCATION) {
-			if (player.getLocation().distance(endPoint) <= 2) {
+			if (player.getLocation().distance(endPoint) <= radius) {
 				dB.echoDebug("...player reached location");
 				finish();
 			}
 		} else if (type == TravelType.TONPC) {
-			if (player.getLocation().distance(target.getBukkitEntity().getLocation()) <= 2) {
+			if (player.getLocation().distance(target.getBukkitEntity().getLocation()) <= radius) {
 				dB.echoDebug("...player reached NPC");
 				finish();
 			}
