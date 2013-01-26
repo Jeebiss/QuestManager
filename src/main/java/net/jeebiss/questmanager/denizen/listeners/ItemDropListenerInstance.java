@@ -163,18 +163,26 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 	
 	@EventHandler
 	public void mobKilled(EntityDeathEvent event) {
+		dB.echoDebug("...checking kill");
 		if (event.getEntity().getKiller() != player) return;
+		dB.echoDebug("...killed by player");
 		if (event.getEntity() != mob) return;
+		dB.echoDebug("...proper mob");
 		if (location != null) {
 			if (location.distance(player.getLocation()) > radius ) return;
 		}
+		dB.echoDebug("...within range");
 		if (wgregion != null) {
 			if (!inRegion(player, wgregion)) return;
 		}
+		dB.echoDebug("...within region");
 		
+		dB.echoDebug("...trying to drop item");
 		if (r.nextInt(101) < dropRate) {
+			dB.echoDebug("...item should drop now");
 			event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), item);
 			qtyDropped++;
+			dB.echoDebug("...item dropped");
 			check();
 		}
 	}
