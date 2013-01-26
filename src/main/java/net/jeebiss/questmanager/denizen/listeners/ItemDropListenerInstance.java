@@ -117,7 +117,7 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 			break;
 		
 		case MOBKILL:
-			if (aH.matchesEntityType(dropper)) {
+			if (aH.matchesEntityType("entity:" + dropper)) {
 				mob = aH.getLivingEntityFrom(dropper);
 				dB.echoDebug("...mob selected from DROPSFROM");
 			} else dB.echoDebug("...could not select mob from DROPSFROM");
