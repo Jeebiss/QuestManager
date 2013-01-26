@@ -159,6 +159,8 @@ public class ItemDropListenerInstance extends AbstractListener {
 		
 		if (r.nextInt(101) < dropRate) {
 			event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), item);
+			qtyDropped++;
+			check();
 		}
 	}
 	
@@ -173,7 +175,13 @@ public class ItemDropListenerInstance extends AbstractListener {
 				dB.echoDebug("...matched region");
 			} 
 		}
-		return inRegion;
+			return inRegion;
+	}
+	
+	private void check() {
+		if (quantity == qtyDropped) {
+			finish();
+		}
 	}
 
 }
