@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,7 +22,7 @@ import net.aufdemrand.denizen.utilities.arguments.aH.ArgumentType;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.jeebiss.questmanager.denizen.listeners.ItemDropListenerType.ItemDropType;
 
-public class ItemDropListenerInstance extends AbstractListener {
+public class ItemDropListenerInstance extends AbstractListener implements Listener {
 	
 	ItemDropType type = null;
 	
@@ -42,13 +43,13 @@ public class ItemDropListenerInstance extends AbstractListener {
 	
 	@Override
 	public void constructed() {
-		// TODO Auto-generated method stub
+		denizen.getServer().getPluginManager().registerEvents(this, denizen);
 		
 	}
 
 	@Override
 	public void deconstructed() {
-		// TODO Auto-generated method stub
+		EntityDeathEvent.getHandlerList().unregister(this);
 		
 	}
 
