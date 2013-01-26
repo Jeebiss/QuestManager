@@ -10,6 +10,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -164,6 +166,7 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 	
 	@EventHandler
 	public void mobKilled(EntityDeathEvent event) {
+		if (type != ItemDropType.MOBKILL) return;
 		dB.echoDebug("...checking kill");
 		if (event.getEntity().getKiller() != player) return;
 		dB.echoDebug("...killed by player");
@@ -188,6 +191,60 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 		}
 	}
 	
+	@EventHandler
+	public void blockMined(BlockBreakEvent event) {
+		if (type != ItemDropType.BLOCKBREAK) return;
+		dB.echoDebug("...checking blockbreakevent");
+		if (event.getPlayer() != player) return;
+		dB.echoDebug("...mined by player");
+		if (event.getBlock().getType() != block) return;
+		dB.echoDebug("...proper block mined");
+		if (location != null) {
+			if (location.distance(player.getLocation()) > radius ) return;
+		}
+		dB.echoDebug("...within range");
+		if (wgregion != null) {
+			if (!inRegion(player, wgregion)) return;
+		}
+		dB.echoDebug("...within region");
+		
+		if (r.nextInt(101) < dropRate) {
+			event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), item);
+			qtyDropped++;
+			dB.echoDebug("...item dropped");
+			check();
+		}
+	}
+	
+	@EventHandler
+	public void blockPlaced(BlockPlaceEvent event) {
+		if (type != ItemDropType.BLOCKPLACE) return;
+		dB.echoDebug("...checking blockplaceevent");
+		if (event.getPlayer() != player) return;
+		dB.echoDebug("...placed by player");
+		if (event.getBlock().getType() != block) return;
+		dB.echoDebug("...proper block placed");
+		if (location != null) {
+			if (location.distance(player.getLocation()) > radius ) return;
+		}
+		dB.echoDebug("...within range");
+		if (wgregion != null) {
+			if (!inRegion(player, wgregion)) return;
+		}
+		dB.echoDebug("...within region");
+		
+		if (r.nextInt(101) < dropRate) {
+			event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), item);
+			qtyDropped++;
+			dB.echoDebug("...item dropped");
+			check();
+		}
+	}
+	
+	/*
+	 * Checks whether or not a player is in
+	 * a given WorldGuard region.
+	 */
 	public boolean inRegion(Player thePlayer, String region) {
 		if (Depends.worldGuard == null) return false;
 		boolean inRegion = false;
@@ -203,6 +260,7 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 	}
 	
 	private void check() {
+		dB.echoDebug(qtyDropped + "/" + quantity + " dropped");
 		if (quantity == qtyDropped) {
 			finish();
 		}
