@@ -37,6 +37,7 @@ import net.jeebiss.questmanager.denizen.listeners.TravelListenerType.TravelType;
  * @author Jeebiss
  */
 public class TravelListenerInstance extends AbstractListener implements Listener{
+	
 	public	static	final	String	DISTANCE_ARG = "DISTANCE, D";
 	public	static	final	String	TYPE_ARG = "TYPE";
 	public	static	final	String	TARGET_ARG = "TARGET";

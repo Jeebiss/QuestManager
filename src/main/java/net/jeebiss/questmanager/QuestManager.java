@@ -7,6 +7,8 @@ import net.citizensnpcs.Citizens;
 import net.jeebiss.questmanager.commands.QMCommandHandler;
 import net.jeebiss.questmanager.denizen.commands.QuestCommand;
 import net.jeebiss.questmanager.denizen.commands.QuestVarCommand;
+import net.jeebiss.questmanager.denizen.listeners.ItemDropListenerInstance;
+import net.jeebiss.questmanager.denizen.listeners.ItemDropListenerType;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerInstance;
 import net.jeebiss.questmanager.denizen.listeners.TravelListenerType;
 import net.jeebiss.questmanager.denizen.requirements.QuestRequirement;
@@ -68,6 +70,7 @@ public class QuestManager extends JavaPlugin implements Listener {
 		
 		//Register DSCRIPT LISTENERs with Denizen
 		new TravelListenerType().activate().as("TRAVEL").withClass(TravelListenerInstance.class);
+		new ItemDropListenerType().activate().as("ITEMDROP").withClass(ItemDropListenerInstance.class);
 		
 		//Register DSCRIPT COMMANDS with Denizen
 		new QuestCommand().activate().as("QUEST").withOptions("To Be Determined", 1);

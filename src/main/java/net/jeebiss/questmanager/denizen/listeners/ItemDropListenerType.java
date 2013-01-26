@@ -2,13 +2,14 @@ package net.jeebiss.questmanager.denizen.listeners;
 
 import net.aufdemrand.denizen.listeners.AbstractListenerType;
 
-public class TravelListenerType extends AbstractListenerType {
+public class ItemDropListenerType extends AbstractListenerType {
 	
-	enum TravelType { DISTANCE, TOLOCATION, TONPC }
+	enum ItemDropType { MOBKILL, BLOCKBREAK, BLOCKPLACE }
 	
 	@Override
 	public void onEnable() {
-		// nothing to do here
+		// TODO Auto-generated method stub
+		
 	}
 
 }
