@@ -60,29 +60,43 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 				try {
 					type = ItemDropType.valueOf(arg);
 					dB.echoDebug("...type set to: " + arg);
+					continue;
 				} catch (Exception e) { dB.echoDebug("...type " + arg + " is not valid."); }
+				
 			} else if (aH.matchesItem(arg)) {
 				item = aH.getItemFrom(arg);
 				dB.echoDebug("...item set to: " + arg);
+				continue;
+				
 			} else if (aH.matchesValueArg("REGION", arg, ArgumentType.Custom)) {
 				wgregion = aH.getStringFrom(arg);
 				dB.echoDebug("...region set to: " + arg);
+				continue;
+				
 			} else if (aH.matchesLocation(arg)) {
 				location = aH.getLocationFrom(arg);
 				dB.echoDebug("...location set to: " + arg);
+				continue;
+				
 			} else if (aH.matchesValueArg("RADIUS", arg, ArgumentType.Integer)) {
 				radius = aH.getIntegerFrom(arg);
 				dB.echoDebug("...radius set to: " + arg);
+				continue;
+				
 			} else if (aH.matchesValueArg("DROPRATE", arg, ArgumentType.Integer)) {
 				dropRate = aH.getIntegerFrom(arg);
 				dB.echoDebug("...drop rate set to: " + arg + "/100");
+				continue;
+				
 			} else if (aH.matchesValueArg("DROPSFROM", arg, ArgumentType.Custom)) {
 				dropper = aH.getStringFrom(arg);
 				dB.echoDebug("...dropper set to: " + arg);
-				//mob type, block type
+				continue;
+				
 			} else if (aH.matchesQuantity(arg)) {
 				quantity = aH.getIntegerFrom(arg);
 				dB.echoDebug("...quantity set to: " + arg);
+				continue;
 			}
 		}
 			
