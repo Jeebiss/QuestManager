@@ -136,26 +136,47 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 
 	@Override
 	public void onCancel() {
-		// TODO Auto-generated method stub
+		// nothing to do here
 		
 	}
 
 	@Override
 	public void onFinish() {
-		// TODO Auto-generated method stub
+		// nothing to do here
 		
 	}
 
 	@Override
 	public void onLoad() {
-		// TODO Auto-generated method stub
+		type = ItemDropType.valueOf((String) get("type"));
+		item = (ItemStack) get("item");
+		location = (Location) get("location");
+		block = (Material) get("block");
+		mob = (EntityType) get("mob");
+		dropper = (String) get("dropper");
+		wgregion = (String) get("wgregion");
+		radius = (Integer) get("radius");
+		dropRate = (Integer) get("dropRate");
+		quantity = (Integer) get("quantity");
+		qtyDropped = (Integer) get("qtyDropped");
+		r = (Random) get("r");
 		
 	}
 
 	@Override
 	public void onSave() {
-		// TODO Auto-generated method stub
-		
+		store("type", type);
+		store("item", item);
+		store("lcoation",location );
+		store("block", block);
+		store("mob", mob);
+		store("dropper", dropper);
+		store("wgregion", wgregion);
+		store("radius", radius);
+		store("dropRate", dropRate);
+		store("quantity", quantity);
+		store("qtyDropped", qtyDropped);
+		store("r", r);
 	}
 
 	@Override
