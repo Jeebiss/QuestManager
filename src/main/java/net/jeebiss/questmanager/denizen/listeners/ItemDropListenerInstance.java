@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +30,7 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 	ItemStack item = null;
 	Location location = null;
 	Material block = null;
-	LivingEntity mob = null;
+	EntityType mob = null;
 	
 	String dropper = null;
 	String wgregion = null;
@@ -118,7 +119,7 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 		
 		case MOBKILL:
 			if (aH.matchesEntityType("entity:" + dropper)) {
-				mob = aH.getLivingEntityFrom("entity:" + dropper);
+				mob = EntityType.valueOf(dropper.toUpperCase());
 				dB.echoDebug("...mob selected from DROPSFROM");
 			} else dB.echoDebug("...could not select mob from DROPSFROM");
 			break;
@@ -166,7 +167,7 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 		dB.echoDebug("...checking kill");
 		if (event.getEntity().getKiller() != player) return;
 		dB.echoDebug("...killed by player");
-		if (event.getEntity() != mob) return;
+		if (event.getEntity().getType() != mob) return;
 		dB.echoDebug("...proper mob");
 		if (location != null) {
 			if (location.distance(player.getLocation()) > radius ) return;
