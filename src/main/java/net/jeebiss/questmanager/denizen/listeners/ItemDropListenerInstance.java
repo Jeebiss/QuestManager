@@ -84,36 +84,36 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 				quantity = aH.getIntegerFrom(arg);
 				dB.echoDebug("...quantity set to: " + arg);
 			}
+		}
 			
-			if (item == null) {
-				dB.echoDebug("...item could not be set");
-				cancel();
-			}
+		if (item == null) {
+			dB.echoDebug("...item could not be set");
+			cancel();
+		}
 			
-			switch (type) {
+		switch (type) {
+		
+		case BLOCKPLACE:
 			
-			case BLOCKPLACE:
-				
-			case BLOCKBREAK:
-				try  { 
-					block = Material.valueOf(dropper);
-					dB.echoDebug("...DROPSFROM material set");
-				} catch (Exception e) { dB.echoDebug("...DROPSFROM is not a valid material"); }
-				break;
+		case BLOCKBREAK:
+			try  { 
+				block = Material.valueOf(dropper);
+				dB.echoDebug("...DROPSFROM material set");
+			} catch (Exception e) { dB.echoDebug("...DROPSFROM is not a valid material"); }
+			break;
+		
+		case MOBKILL:
+			if (aH.matchesEntityType(dropper)) {
+				mob = aH.getLivingEntityFrom(dropper);
+				dB.echoDebug("...mob selected from DROPSFROM");
+			} else dB.echoDebug("...could not select mob from DROPSFROM");
+			break;
 			
-			case MOBKILL:
-				if (aH.matchesEntityType(dropper)) {
-					mob = aH.getLivingEntityFrom(dropper);
-					dB.echoDebug("...mob selected from DROPSFROM");
-				} else dB.echoDebug("...could not select mob from DROPSFROM");
-				break;
-				
-			default:
-				dB.echoDebug("...error setting type");
-				cancel();
-				break;
-			
-			}
+		default:
+			dB.echoDebug("...error setting type");
+			cancel();
+			break;
+		
 		}
 	}
 
