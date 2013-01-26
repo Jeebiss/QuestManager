@@ -58,44 +58,44 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 		for (String arg : args) {
 			if (aH.matchesValueArg("TYPE", arg, ArgumentType.Custom)) {
 				try {
-					type = ItemDropType.valueOf(arg);
-					dB.echoDebug("...type set to: " + arg);
+					type = ItemDropType.valueOf(aH.getStringFrom(arg));
+					dB.echoDebug("...type set to: " + type.name());
 					continue;
-				} catch (Exception e) { dB.echoDebug("...type " + arg + " is not valid."); }
+				} catch (Exception e) { dB.echoDebug("...type " + type.name() + " is not valid."); }
 				
 			} else if (aH.matchesItem(arg)) {
 				item = aH.getItemFrom(arg);
-				dB.echoDebug("...item set to: " + arg);
+				dB.echoDebug("...item set to: " + item);
 				continue;
 				
 			} else if (aH.matchesValueArg("REGION", arg, ArgumentType.Custom)) {
 				wgregion = aH.getStringFrom(arg);
-				dB.echoDebug("...region set to: " + arg);
+				dB.echoDebug("...region set to: " + wgregion);
 				continue;
 				
 			} else if (aH.matchesLocation(arg)) {
 				location = aH.getLocationFrom(arg);
-				dB.echoDebug("...location set to: " + arg);
+				dB.echoDebug("...location set to: " + location);
 				continue;
 				
 			} else if (aH.matchesValueArg("RADIUS", arg, ArgumentType.Integer)) {
 				radius = aH.getIntegerFrom(arg);
-				dB.echoDebug("...radius set to: " + arg);
+				dB.echoDebug("...radius set to: " + radius);
 				continue;
 				
 			} else if (aH.matchesValueArg("DROPRATE", arg, ArgumentType.Integer)) {
 				dropRate = aH.getIntegerFrom(arg);
-				dB.echoDebug("...drop rate set to: " + arg + "/100");
+				dB.echoDebug("...drop rate set to: " + dropRate + "/100");
 				continue;
 				
 			} else if (aH.matchesValueArg("DROPSFROM", arg, ArgumentType.Custom)) {
 				dropper = aH.getStringFrom(arg);
-				dB.echoDebug("...dropper set to: " + arg);
+				dB.echoDebug("...dropper set to: " + dropper);
 				continue;
 				
 			} else if (aH.matchesQuantity(arg)) {
 				quantity = aH.getIntegerFrom(arg);
-				dB.echoDebug("...quantity set to: " + arg);
+				dB.echoDebug("...quantity set to: " + quantity);
 				continue;
 			}
 		}
