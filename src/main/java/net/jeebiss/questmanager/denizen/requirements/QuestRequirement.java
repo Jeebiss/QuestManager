@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import net.aufdemrand.denizen.exceptions.RequirementCheckException;
-import net.aufdemrand.denizen.npc.DenizenNPC;
+import net.aufdemrand.denizen.npc.dNPC;
 import net.aufdemrand.denizen.scripts.requirements.AbstractRequirement;
 import net.aufdemrand.denizen.scripts.requirements.RequirementsContext;
 import net.aufdemrand.denizen.utilities.arguments.aH;

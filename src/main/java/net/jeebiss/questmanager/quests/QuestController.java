@@ -10,7 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import net.aufdemrand.denizen.Denizen;
-import net.aufdemrand.denizen.npc.DenizenNPC;
+import net.aufdemrand.denizen.npc.dNPC;
 import net.aufdemrand.denizen.scripts.ScriptBuilder;
 import net.aufdemrand.denizen.scripts.ScriptEngine.QueueType;
 import net.aufdemrand.denizen.scripts.requirements.RequirementsContext;
@@ -34,7 +34,7 @@ public class QuestController {
 	Set<String> chapters;
 	List<String> requirements;
 	
-	public QuestController(final String scriptName, final String questName, final Player player, final DenizenNPC npc) {
+	public QuestController(final String scriptName, final String questName, final Player player, final dNPC npc) {
 		dB.echoDebug("Creating a new controller for " + scriptName + " as " + questName);
 		if (qm == null) {
 			throw new RuntimeException ("Unable to locate the QuestManager plugin.");

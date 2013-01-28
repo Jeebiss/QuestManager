@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 
 import net.aufdemrand.denizen.exceptions.CommandExecutionException;
 import net.aufdemrand.denizen.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizen.npc.DenizenNPC;
 import net.aufdemrand.denizen.scripts.ScriptEntry;
 import net.aufdemrand.denizen.scripts.commands.AbstractCommand;
 import net.aufdemrand.denizen.utilities.arguments.aH;
@@ -73,7 +72,7 @@ public class QuestCommand extends AbstractCommand{
 		//
 		case CONTINUE:
 			dB.echoApproval("Continuing on to the next chapter in quest:  " + (String)scriptEntry.getObject ("questName"));
-			new QuestController(scriptEntry.getScript(), // <--- This getScript() doesnt account for the command outside the quest
+			new QuestController(scriptEntry.getScript().getName(), // <--- This getScript() doesnt account for the command outside the quest
 					(String) scriptEntry.getObject("questName"), 
 					scriptEntry.getPlayer(),
 					scriptEntry.getNPC());

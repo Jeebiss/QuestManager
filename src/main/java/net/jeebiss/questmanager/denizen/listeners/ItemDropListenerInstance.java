@@ -6,7 +6,6 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -181,7 +180,16 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 
 	@Override
 	public String report() {
-		// TODO Auto-generated method stub
+		switch (type) {
+		case BLOCKBREAK:
+			break;
+		case BLOCKPLACE:
+			break;
+		case MOBKILL:
+			break;
+		default:
+			break;
+		}
 		return null;
 	}
 	
