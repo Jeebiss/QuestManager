@@ -6,7 +6,6 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -14,11 +13,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-
 import net.aufdemrand.denizen.listeners.AbstractListener;
-import net.aufdemrand.denizen.utilities.Depends;
+import net.aufdemrand.denizen.utilities.WorldGuardUtilities;
 import net.aufdemrand.denizen.utilities.arguments.aH;
 import net.aufdemrand.denizen.utilities.arguments.aH.ArgumentType;
 import net.aufdemrand.denizen.utilities.debugging.dB;
@@ -34,7 +30,7 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 	EntityType mob = null;
 	
 	String dropper = null;
-	String wgregion = null;
+	String region = null;
 	
 	Integer radius = 5;
 	Integer dropRate = 100;
@@ -71,8 +67,8 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 				continue;
 				
 			} else if (aH.matchesValueArg("REGION", arg, ArgumentType.Custom)) {
-				wgregion = aH.getStringFrom(arg);
-				dB.echoDebug("...region set to: " + wgregion);
+				region = aH.getStringFrom(arg);
+				dB.echoDebug("...region set to: " + region);
 				continue;
 				
 			} else if (aH.matchesLocation(arg)) {
@@ -153,7 +149,7 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 		block = (Material) get("block");
 		mob = (EntityType) get("mob");
 		dropper = (String) get("dropper");
-		wgregion = (String) get("wgregion");
+		region = (String) get("region");
 		radius = (Integer) get("radius");
 		dropRate = (Integer) get("dropRate");
 		quantity = (Integer) get("quantity");
@@ -170,7 +166,7 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 		store("block", block);
 		store("mob", mob);
 		store("dropper", dropper);
-		store("wgregion", wgregion);
+		store("region", region);
 		store("radius", radius);
 		store("dropRate", dropRate);
 		store("quantity", quantity);
@@ -205,8 +201,8 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 			if (location.distance(player.getLocation()) > radius ) return;
 		}
 		dB.echoDebug("...within range");
-		if (wgregion != null) {
-			if (!inRegion(player, wgregion)) return;
+		if (region != null) {
+			if (!WorldGuardUtilities.checkPlayerWGRegion(player, region)) return;
 		}
 		dB.echoDebug("...within region");
 		
@@ -232,8 +228,8 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 			if (location.distance(player.getLocation()) > radius ) return;
 		}
 		dB.echoDebug("...within range");
-		if (wgregion != null) {
-			if (!inRegion(player, wgregion)) return;
+		if (region != null) {
+			if (!WorldGuardUtilities.checkPlayerWGRegion(player, region)) return;
 		}
 		dB.echoDebug("...within region");
 		
@@ -257,8 +253,8 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 			if (location.distance(player.getLocation()) > radius ) return;
 		}
 		dB.echoDebug("...within range");
-		if (wgregion != null) {
-			if (!inRegion(player, wgregion)) return;
+		if (region != null) {
+			if (!WorldGuardUtilities.checkPlayerWGRegion(player, region)) return;
 		}
 		dB.echoDebug("...within region");
 		
@@ -268,24 +264,6 @@ public class ItemDropListenerInstance extends AbstractListener implements Listen
 			dB.echoDebug("...item dropped");
 			check();
 		}
-	}
-	
-	/*
-	 * Checks whether or not a player is in
-	 * a given WorldGuard region.
-	 */
-	public boolean inRegion(Player thePlayer, String region) {
-		if (Depends.worldGuard == null) return false;
-		boolean inRegion = false;
-		ApplicableRegionSet currentRegions = Depends.worldGuard.getRegionManager(thePlayer.getWorld()).getApplicableRegions(thePlayer.getLocation());
-		for(ProtectedRegion thisRegion: currentRegions){
-			dB.echoDebug("...checking current player region: " + thisRegion.getId());
-			if (thisRegion.getId().contains(region)) {
-				inRegion = true;
-				dB.echoDebug("...matched region");
-			} 
-		}
-			return inRegion;
 	}
 	
 	private void check() {
